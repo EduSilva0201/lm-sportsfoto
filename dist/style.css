@@ -47,3 +47,8 @@ form input:focus,form textarea:focus,form select:focus{border-bottom-color:var(-
 .hero>.magic-trail{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
 .hero>.hero-copy,.hero>.hero-foot{z-index:3}
 @media(hover:none),(pointer:coarse),(prefers-reduced-motion:reduce){.magic-trail{display:none}}
+
+/* Cabeçalho compacto: mantém a marca legível sem ocupar espaço da hero. */
+header{height:74px}
+header .brand img{width:126px;height:62px}
+@media(max-width:650px){header{height:66px}header .brand img{width:112px;height:56px}nav{top:66px}}
