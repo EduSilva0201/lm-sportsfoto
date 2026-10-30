@@ -52,3 +52,6 @@ form input:focus,form textarea:focus,form select:focus{border-bottom-color:var(-
 header{height:74px}
 header .brand img{width:126px;height:62px}
 @media(max-width:650px){header{height:66px}header .brand img{width:112px;height:56px}nav{top:66px}}
+
+/* Foto fixa na hero: sem parallax e sem camada GPU permanente. */
+.hero>img{transform:none!important;transition:none;will-change:auto}
