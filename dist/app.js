@@ -54,3 +54,97 @@ $('#cart-open').onclick=()=>{renderCart();$('#cart').showModal();};$('#cart-item
  pointer.addEventListener('change', resetHero);
  configureMotion();
 })();
+
+// Rastro de varinha mágica: canvas decorativo, sem interceptar cliques.
+(() => {
+ const hero = document.querySelector('.hero');
+ if (!hero) return;
+ const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+ const fine = matchMedia('(hover: hover) and (pointer: fine)');
+ const canvas = document.createElement('canvas');
+ canvas.className = 'magic-trail';
+ canvas.setAttribute('aria-hidden', 'true');
+ hero.append(canvas);
+ const ctx = canvas.getContext('2d');
+ if (!ctx) { canvas.remove(); return; }
+ let particles = [], frame = 0, lastTime = 0, previous = null;
+ let width = 0, height = 0;
+ const enabled = () => !reduced.matches && fine.matches && !document.hidden;
+ function resize() {
+  width = hero.clientWidth; height = hero.clientHeight;
+  const ratio = Math.min(devicePixelRatio || 1, 2);
+  canvas.width = Math.round(width * ratio);
+  canvas.height = Math.round(height * ratio);
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  particles = []; previous = null;
+ }
+ function clear() {
+  cancelAnimationFrame(frame); frame = 0; lastTime = 0;
+  particles = []; previous = null;
+  ctx.clearRect(0, 0, width, height);
+ }
+ function emit(x, y) {
+  const angle = Math.random() * Math.PI * 2;
+  const speed = 12 + Math.random() * 28;
+  particles.push({x, y, vx:Math.cos(angle)*speed, vy:Math.sin(angle)*speed-12,
+   age:0, life:.45+Math.random()*.45, size:.8+Math.random()*2,
+   star:Math.random()>.78, rotation:Math.random()*Math.PI,
+   color:Math.random()>.7?'#f2ffd1':'#d3f56b'});
+ }
+ function draw(time) {
+  frame = 0;
+  if (!enabled()) { clear(); return; }
+  const dt = lastTime ? Math.min((time-lastTime)/1000, .04) : 1/60;
+  lastTime = time;
+  ctx.clearRect(0, 0, width, height);
+  ctx.globalCompositeOperation = 'lighter';
+  particles = particles.filter(p => p.age < p.life);
+  for (const p of particles) {
+   p.age += dt; p.x += p.vx*dt; p.y += p.vy*dt; p.vy += 16*dt;
+   const fade = Math.max(0, 1-p.age/p.life);
+   const size = p.size*(.35+fade*.65);
+   ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rotation+p.age*.7);
+   ctx.globalAlpha = fade*.85; ctx.fillStyle=p.color;
+   ctx.shadowColor=p.color; ctx.shadowBlur=p.star?10:5;
+   ctx.beginPath();
+   if (p.star) {
+    for (let i=0;i<8;i++) {
+     const a=i*Math.PI/4, radius=i%2?size*.4:size*2.4;
+     const x=Math.cos(a)*radius,y=Math.sin(a)*radius;
+     if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+   } else ctx.arc(0,0,size,0,Math.PI*2);
+   ctx.fill(); ctx.restore();
+  }
+  ctx.globalCompositeOperation='source-over';
+  if (particles.length) frame=requestAnimationFrame(draw);
+  else lastTime=0;
+ }
+ hero.addEventListener('pointermove', e => {
+  if (!enabled() || e.pointerType==='touch') return;
+  const rect=hero.getBoundingClientRect();
+  const point={x:e.clientX-rect.left,y:e.clientY-rect.top};
+  const distance=previous?Math.hypot(point.x-previous.x,point.y-previous.y):0;
+  if (previous && distance<3) return;
+  const start=previous||point, count=Math.min(12,Math.max(2,Math.ceil(distance/5)));
+  for(let i=1;i<=count;i++) {
+   const t=i/count;
+   emit(start.x+(point.x-start.x)*t+(Math.random()-.5)*9,
+        start.y+(point.y-start.y)*t+(Math.random()-.5)*9);
+  }
+  previous=point;
+  if(particles.length>150)particles.splice(0,particles.length-150);
+  if(!frame)frame=requestAnimationFrame(draw);
+ },{passive:true});
+ hero.addEventListener('pointerleave',()=>{previous=null;});
+ hero.addEventListener('pointercancel',clear);
+ document.addEventListener('visibilitychange',clear);
+ reduced.addEventListener('change',clear); fine.addEventListener('change',clear);
+ if('ResizeObserver' in window)new ResizeObserver(resize).observe(hero);
+ else window.addEventListener('resize',resize,{passive:true});
+ if('IntersectionObserver' in window)new IntersectionObserver(entries=>{
+  if(!entries[0].isIntersecting)clear();
+ }).observe(hero);
+ resize();
+})();
