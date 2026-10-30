@@ -11,29 +11,9 @@ $('#cart-open').onclick=()=>{renderCart();$('#cart').showModal();};$('#cart-item
 // Efeitos decorativos progressivos: conteúdo continua acessível sem animações.
 (() => {
  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
- const pointer = window.matchMedia('(hover: hover) and (pointer: fine)');
- const hero = document.querySelector('.hero');
- let frame = 0, nextX = 0, nextY = 0;
- function resetHero() {
-  cancelAnimationFrame(frame); frame = 0;
-  hero.style.removeProperty('--hero-x'); hero.style.removeProperty('--hero-y');
- }
- hero.addEventListener('pointermove', event => {
-  if (reduced.matches || !pointer.matches || event.pointerType === 'touch') return;
-  const bounds = hero.getBoundingClientRect();
-  nextX = ((event.clientX - bounds.left) / bounds.width - .5) * 18;
-  nextY = ((event.clientY - bounds.top) / bounds.height - .5) * 12;
-  if (!frame) frame = requestAnimationFrame(() => {
-   hero.style.setProperty('--hero-x', nextX + 'px');
-   hero.style.setProperty('--hero-y', nextY + 'px'); frame = 0;
-  });
- }, {passive:true});
- hero.addEventListener('pointerleave', resetHero);
- hero.addEventListener('pointercancel', resetHero);
  let observer;
  const sections = [...document.querySelectorAll('.section-top, .manifesto-copy, .about-grid, .how > h2, .steps article, .contact > div, #quote')];
  function configureMotion() {
-  resetHero();
   if (observer) observer.disconnect();
   sections.forEach(el => el.classList.remove('reveal-pending'));
   if (reduced.matches || !('IntersectionObserver' in window)) return;
@@ -51,7 +31,6 @@ $('#cart-open').onclick=()=>{renderCart();$('#cart').showModal();};$('#cart-item
   });
  }
  reduced.addEventListener('change', configureMotion);
- pointer.addEventListener('change', resetHero);
  configureMotion();
 })();
 
@@ -68,11 +47,11 @@ $('#cart-open').onclick=()=>{renderCart();$('#cart').showModal();};$('#cart-item
  const ctx = canvas.getContext('2d');
  if (!ctx) { canvas.remove(); return; }
  let particles = [], frame = 0, lastTime = 0, previous = null;
- let width = 0, height = 0;
+ let width = 0, height = 0, lastEmit = 0;
  const enabled = () => !reduced.matches && fine.matches && !document.hidden;
  function resize() {
   width = hero.clientWidth; height = hero.clientHeight;
-  const ratio = Math.min(devicePixelRatio || 1, 2);
+  const ratio = Math.min(devicePixelRatio || 1, 1.25);
   canvas.width = Math.round(width * ratio);
   canvas.height = Math.round(height * ratio);
   ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
@@ -87,7 +66,7 @@ $('#cart-open').onclick=()=>{renderCart();$('#cart').showModal();};$('#cart-item
   const angle = Math.random() * Math.PI * 2;
   const speed = 12 + Math.random() * 28;
   particles.push({x, y, vx:Math.cos(angle)*speed, vy:Math.sin(angle)*speed-12,
-   age:0, life:.45+Math.random()*.45, size:.8+Math.random()*2,
+   age:0, life:.35+Math.random()*.25, size:.8+Math.random()*2,
    star:Math.random()>.78, rotation:Math.random()*Math.PI,
    color:Math.random()>.7?'#f2ffd1':'#d3f56b'});
  }
@@ -105,7 +84,7 @@ $('#cart-open').onclick=()=>{renderCart();$('#cart').showModal();};$('#cart-item
    const size = p.size*(.35+fade*.65);
    ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rotation+p.age*.7);
    ctx.globalAlpha = fade*.85; ctx.fillStyle=p.color;
-   ctx.shadowColor=p.color; ctx.shadowBlur=p.star?10:5;
+   // Sem shadowBlur por partícula: evita repintura cara.
    ctx.beginPath();
    if (p.star) {
     for (let i=0;i<8;i++) {
@@ -123,18 +102,21 @@ $('#cart-open').onclick=()=>{renderCart();$('#cart').showModal();};$('#cart-item
  }
  hero.addEventListener('pointermove', e => {
   if (!enabled() || e.pointerType==='touch') return;
+  const now = performance.now();
+  if (now-lastEmit < 32) return;
+  lastEmit = now;
   const rect=hero.getBoundingClientRect();
   const point={x:e.clientX-rect.left,y:e.clientY-rect.top};
   const distance=previous?Math.hypot(point.x-previous.x,point.y-previous.y):0;
   if (previous && distance<3) return;
-  const start=previous||point, count=Math.min(12,Math.max(2,Math.ceil(distance/5)));
+  const start=previous||point, count=Math.min(5,Math.max(2,Math.ceil(distance/10)));
   for(let i=1;i<=count;i++) {
    const t=i/count;
    emit(start.x+(point.x-start.x)*t+(Math.random()-.5)*9,
         start.y+(point.y-start.y)*t+(Math.random()-.5)*9);
   }
   previous=point;
-  if(particles.length>150)particles.splice(0,particles.length-150);
+  if(particles.length>48)particles.splice(0,particles.length-48);
   if(!frame)frame=requestAnimationFrame(draw);
  },{passive:true});
  hero.addEventListener('pointerleave',()=>{previous=null;});
