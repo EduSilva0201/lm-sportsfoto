@@ -33,4 +33,4 @@ Nesta cópia no GitHub, as fotografias demonstrativas são carregadas diretament
 O repositório GitHub é privado. A prévia no Sites é separada e não recebe automaticamente os commits deste repositório.
 
 ## Identidade visual
-Grafite #202327 e azul-elétrico #1677FF. Logo em SVG e favicon em dist/assets. Azul-claro nos textos sobre fundos escuros para melhorar o contraste.
+Preto #101211 e verde-lima #D3F56B. Logo em SVG e favicon em dist/assets, adaptados à paleta escolhida.
