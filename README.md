@@ -1,6 +1,8 @@
 # LM SportsFoto
 
-Primeira versão privada para revisão de layout e navegação. Site em português, responsivo, com eventos filtráveis, galerias demonstrativas, seleção local e formulário com validação.
+**🚧 Em desenvolvimento**
+
+Projeto de site de fotografia esportiva, em desenvolvimento, para revisão de layout e navegação. Site em português, responsivo, com eventos filtráveis, galerias demonstrativas, seleção local e formulário com validação.
 
 ## Estrutura
 - `dist/index.html`: estrutura das páginas e seções.
@@ -30,7 +32,7 @@ Baixe ou clone este repositório e abra `dist/index.html` no navegador. Alternat
 
 Nesta cópia no GitHub, as fotografias demonstrativas são carregadas diretamente dos endereços públicos do Unsplash e exigem conexão à internet. As fontes também usam Google Fonts. Substituiremos as imagens por arquivos autorizados do fotógrafo.
 
-O repositório GitHub é privado. A prévia no Sites é separada e não recebe automaticamente os commits deste repositório.
+A prévia no Sites é separada e não recebe automaticamente os commits deste repositório.
 
 ## Identidade visual
 Preto #101211 e verde-lima #D3F56B. Logo em SVG e favicon em dist/assets, adaptados à paleta escolhida.
