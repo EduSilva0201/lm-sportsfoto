@@ -31,3 +31,6 @@ Baixe ou clone este repositório e abra `dist/index.html` no navegador. Alternat
 Nesta cópia no GitHub, as fotografias demonstrativas são carregadas diretamente dos endereços públicos do Unsplash e exigem conexão à internet. As fontes também usam Google Fonts. Substituiremos as imagens por arquivos autorizados do fotógrafo.
 
 O repositório GitHub é privado. A prévia no Sites é separada e não recebe automaticamente os commits deste repositório.
+
+## Identidade visual
+Grafite #202327 e azul-elétrico #1677FF. Logo em SVG e favicon em dist/assets. Azul-claro nos textos sobre fundos escuros para melhorar o contraste.
