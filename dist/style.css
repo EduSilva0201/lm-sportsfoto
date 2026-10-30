@@ -10,3 +10,32 @@
 .filters button:hover{border-color:var(--accent)}
 form input:focus,form textarea:focus,form select:focus{border-bottom-color:var(--accent);outline:none;box-shadow:0 1px 0 var(--accent)}
 @media(max-width:650px){header{height:82px}.brand img{width:128px;height:68px}nav{top:82px}.hero-copy{top:58px}.hero h1{font-size:45px}.hero h1 em{font-size:.96em}footer .brand img{width:145px;height:76px}}
+
+/* Movimento: hero, chamadas e galerias */
+.hero{--hero-x:0px;--hero-y:0px}
+.hero>img{transform:translate3d(var(--hero-x),var(--hero-y),0) scale(1.045);transition:transform .65s cubic-bezier(.2,.7,.2,1);will-change:transform}
+.hero .button{box-shadow:0 0 0 0 #d3f56000;transition:transform .25s,box-shadow .25s,background .25s}
+.hero .button span{display:inline-block;transition:transform .25s}
+.hero .button:focus-visible{box-shadow:0 0 0 5px #d3f56b25}
+.hero .button:focus-visible span{transform:translate(3px,-3px)}
+.event-photo{transition:border-color .3s,box-shadow .3s}
+.event-photo img{transition:transform .65s cubic-bezier(.2,.7,.2,1)}
+.event-photo .arrow{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:22px;min-width:38px;min-height:38px}
+.album-cta{font-size:11px;font-weight:700}
+.event-card:focus-visible .event-photo{border-color:var(--accent);box-shadow:0 0 0 3px #d3f56b15}
+.event-card:focus-visible .event-photo img{transform:scale(1.06)}
+@media(hover:hover) and (pointer:fine){
+ .hero .button:hover{transform:translateY(-3px);box-shadow:0 8px 30px #d3f56b25}
+ .hero .button:hover span{transform:translate(3px,-3px)}
+ .event-card:hover .event-photo{border-color:var(--accent);box-shadow:0 8px 25px #0003}
+ .event-card:hover .event-photo img{transform:scale(1.06)}
+ .album-cta{max-width:0;opacity:0;overflow:hidden;white-space:nowrap;transition:max-width .3s,opacity .3s}
+ .event-card:hover .album-cta,.event-card:focus-visible .album-cta{max-width:80px;opacity:1}
+}
+.reveal-pending{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1)}
+.reveal-pending.is-visible,.reveal-pending:focus-within{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+ .hero>img{transform:none!important;will-change:auto}
+ .reveal-pending{opacity:1!important;transform:none!important;transition:none!important}
+ .event-card:hover img,.event-card:focus-visible img,.hero .button:hover,.hero .button:hover span,.hero .button:focus-visible span{transform:none!important}
+}
