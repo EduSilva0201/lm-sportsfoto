@@ -79,3 +79,8 @@ header .brand img{width:126px;height:62px}
 .hero-credit{font-size:8px;letter-spacing:.9px;opacity:.8}.hero-credit:hover{color:var(--accent);opacity:1}
 @media(min-width:1500px){.hero{height:720px}.hero-copy{top:95px}}
 @media(max-width:650px){.hero{height:640px}.hero>img{object-position:58% center}.hero>.shade{background:linear-gradient(90deg,#101211d9,#10121165),linear-gradient(0deg,#101211,transparent 45%)}.hero-copy{top:60px}.hero h1{font-size:43px}.hero-foot{align-items:flex-start;gap:12px;flex-direction:column}.hero-credit{font-size:7px;letter-spacing:.4px}}
+
+/* Corrida em Brasília: fonte em alta resolução e escurecimento localizado. */
+.hero>img{object-position:center 42%;filter:none}
+.hero>.shade{background:linear-gradient(90deg,#101211ed 0%,#101211d1 24%,#10121185 39%,#10121112 57%,transparent 75%),linear-gradient(0deg,#101211c9,transparent 22%)}
+@media(max-width:650px){.hero>img{object-position:54% center}.hero>.shade{background:linear-gradient(90deg,#101211da,#10121155),linear-gradient(0deg,#101211d9,transparent 35%)}}
