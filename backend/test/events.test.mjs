@@ -1,0 +1,63 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtemp, writeFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { once } from 'node:events';
+import { createApp } from '../server.mjs';
+import { passwordHash } from '../auth.mjs';
+
+test('login, catálogo persistente, rascunhos, validação, uploads e permissões',async t=>{
+ const dataDir=await mkdtemp(join(tmpdir(),'lm-test-'));
+ const password='Senha-local-teste-47!';
+ await writeFile(join(dataDir,'admin.json'),JSON.stringify({email:'teste@example.com',...await passwordHash(password)}));
+ let app,origin,cookie='';
+ const start=async()=>{app=createApp({dataDir});app.listen(0,'127.0.0.1');await once(app,'listening');origin=`http://127.0.0.1:${app.address().port}`;};
+ const stop=async()=>{app.closeAllConnections();await new Promise(resolve=>app.close(resolve));};
+ const request=async(path,method='GET',data,headers={})=>{
+  const response=await fetch(origin+path,{method,headers:{Origin:origin,Cookie:cookie,...(data!==undefined?{'Content-Type':'application/json'}:{}),...headers},...(data!==undefined?{body:JSON.stringify(data)}:{})});
+  return {status:response.status,data:await response.json(),headers:response.headers};
+ };
+ await start();
+ try {
+  assert.equal((await request('/api/admin/events')).status,401);
+  assert.equal((await request('/api/auth/login','POST',{email:'teste@example.com',password:'errada'})).status,401);
+  let login=await request('/api/auth/login','POST',{email:'teste@example.com',password});assert.equal(login.status,200);
+  cookie=login.headers.get('set-cookie').split(';')[0];
+  assert.match(login.headers.get('set-cookie'),/HttpOnly/);assert.match(login.headers.get('set-cookie'),/SameSite=Strict/);
+  assert.equal((await request('/api/auth/session')).status,200);
+  const draft={name:'Teste de corrida',place:'Brasília · DF',type:'Corrida',platform:'Banlek',date:'2026-10-31',url:'https://example.com/album',image:'0392',status:'draft'};
+  assert.equal((await request('/api/admin/events','POST',draft,{Origin:'https://evil.example'})).status,403);
+  assert.equal((await request('/api/admin/events','POST',{...draft,url:'javascript:alert(1)'})).status,400);
+  assert.equal((await request('/api/admin/events','POST',{...draft,url:'https://user:secret@example.com'})).status,400);
+  assert.equal((await request('/api/admin/events','POST',{...draft,date:'2026-02-30'})).status,400);
+  assert.equal((await request('/api/admin/events','POST',{...draft,image:'../../admin.json'})).status,400);
+  const created=await request('/api/admin/events','POST',draft);assert.equal(created.status,201);const id=created.data.event.id;
+  assert.equal((await request('/api/events')).data.events.length,0);
+  assert.equal((await request('/api/admin/events')).data.events.length,1);
+  const published={...draft,status:'published',name:'Evento publicado',place:'Parque da Cidade'};
+  const update=await request(`/api/admin/events/${id}`,'PUT',published);assert.equal(update.status,200);
+  assert.equal(update.data.event.place,'Parque da Cidade');assert.equal(update.data.event.type,'Corrida');assert.equal(update.data.event.platform,'Banlek');
+  const publicEvents=(await request('/api/events')).data.events;assert.equal(publicEvents[0].name,'Evento publicado');assert.equal(publicEvents[0].status,undefined);
+  let upload=await fetch(origin+'/api/admin/uploads',{method:'POST',headers:{Origin:origin,Cookie:cookie,'Content-Type':'image/svg+xml'},body:'<svg></svg>'});assert.equal(upload.status,415);
+  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a1XkAAAAASUVORK5CYII=','base64');
+  upload=await fetch(origin+'/api/admin/uploads',{method:'POST',headers:{Origin:origin,Cookie:cookie,'Content-Type':'image/png'},body:png});assert.equal(upload.status,201);const image=(await upload.json()).image;
+  assert.equal((await fetch(origin+image)).status,200);
+  assert.equal((await request(`/api/admin/events/${id}`,'PUT',{...published,image})).status,200);
+  await stop();await start();
+  assert.equal((await request('/api/events')).data.events[0].image,image);
+  assert.equal((await request('/api/auth/session')).status,200);
+  assert.equal((await request(`/api/admin/events/${id}`,'PUT',draft)).status,200);
+  assert.equal((await request('/api/events')).data.events.length,0);
+  assert.equal((await request(`/api/admin/events/${id}`,'DELETE')).status,200);
+  assert.equal((await request(`/api/admin/events/${id}`,'DELETE')).status,404);
+  assert.equal((await fetch(origin+'/.local/admin.json')).status,404);
+  assert.equal((await fetch(origin+'/backend/server.mjs')).status,404);
+  assert.equal((await fetch(origin+'/admin/')).status,200);
+  assert.equal((await request('/api/auth/logout','POST')).status,200);
+  assert.equal((await request('/api/admin/events')).status,401);
+  assert.equal((await request('/api/admin/events','POST',draft)).status,401);
+  for(let i=0;i<10;i++)assert.equal((await request('/api/auth/login','POST',{email:'teste@example.com',password:'errada'})).status,401);
+  assert.equal((await request('/api/auth/login','POST',{email:'teste@example.com',password})).status,429);
+ } finally { await stop();await rm(dataDir,{recursive:true,force:true}); }
+});
