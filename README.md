@@ -36,3 +36,7 @@ A prévia no Sites é separada e não recebe automaticamente os commits deste re
 
 ## Identidade visual
 Preto #101211 e verde-lima #D3F56B. Logo em SVG e favicon em dist/assets, adaptados à paleta escolhida.
+
+## Capa provisória
+A hero utiliza provisoriamente a fotografia horizontal de Fil Mazzarino: https://unsplash.com/photos/running-woman-under-bare-tree-during-daytime-VyOtjKmSnKQ
+Licença: https://unsplash.com/license (consultada em 30/10/2026). A foto não integra o acervo vendido pelo Lucas e será substituída por uma fotografia própria. Crédito também exibido na hero. Os demais destaques utilizam as fotografias fornecidas do Lucas.
