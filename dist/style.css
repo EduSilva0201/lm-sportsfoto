@@ -55,3 +55,18 @@ header .brand img{width:126px;height:62px}
 
 /* Foto fixa na hero: sem parallax e sem camada GPU permanente. */
 .hero>img{transform:none!important;transition:none;will-change:auto}
+
+/* Fotografias reais: composição que respeita os enquadramentos verticais. */
+.hero{background:#101211;height:690px}
+.hero>img{position:absolute;right:0;top:0;width:57%;height:100%;object-fit:contain;object-position:70% center}
+.hero>.shade{background:linear-gradient(90deg,#101211 0%,#101211 36%,#101211a8 50%,#10121100 70%),linear-gradient(0deg,#101211,transparent 24%)}
+.hero-copy{top:75px}.hero h1{font-size:clamp(44px,5vw,72px)}
+.event-photo{height:390px}.event-photo img{object-position:center 35%}
+.manifesto-photo{min-height:680px}.manifesto-photo img{object-position:center 42%;filter:brightness(.92)}
+.portfolio-real{padding-top:75px;padding-bottom:40px}
+.portfolio-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:30px}
+.portfolio-grid figure{margin:0;overflow:hidden}.portfolio-grid img{width:100%;height:350px;object-fit:cover;object-position:center 30%;border-radius:3px;transition:transform .5s}
+.portfolio-grid figcaption{font-size:9px;letter-spacing:1.5px;color:var(--muted);padding-top:14px}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.portfolio-grid figure:hover img{transform:scale(1.025)}}
+@media(max-width:900px){.hero>img{width:62%;object-position:right center}.portfolio-grid{grid-template-columns:repeat(2,1fr)}.portfolio-grid img{height:420px}.event-photo{height:310px}}
+@media(max-width:650px){.hero{height:730px}.hero>img{width:100%;height:100%;object-fit:cover;object-position:56% center;opacity:.68}.hero>.shade{background:linear-gradient(90deg,#101211c9,#10121155),linear-gradient(0deg,#101211,transparent 45%)}.hero-copy{top:90px;left:6%}.hero h1{font-size:45px}.event-photo{height:440px}.manifesto-photo{min-height:520px}.portfolio-grid{gap:14px}.portfolio-grid img{height:250px}.portfolio-grid figcaption{font-size:8px;letter-spacing:.5px}}
