@@ -70,3 +70,12 @@ header .brand img{width:126px;height:62px}
 @media(hover:hover) and (prefers-reduced-motion:no-preference){.portfolio-grid figure:hover img{transform:scale(1.025)}}
 @media(max-width:900px){.hero>img{width:62%;object-position:right center}.portfolio-grid{grid-template-columns:repeat(2,1fr)}.portfolio-grid img{height:420px}.event-photo{height:310px}}
 @media(max-width:650px){.hero{height:730px}.hero>img{width:100%;height:100%;object-fit:cover;object-position:56% center;opacity:.68}.hero>.shade{background:linear-gradient(90deg,#101211c9,#10121155),linear-gradient(0deg,#101211,transparent 45%)}.hero-copy{top:90px;left:6%}.hero h1{font-size:45px}.event-photo{height:440px}.manifesto-photo{min-height:520px}.portfolio-grid{gap:14px}.portfolio-grid img{height:250px}.portfolio-grid figcaption{font-size:8px;letter-spacing:.5px}}
+
+/* Capa horizontal provisória: fotografia de Fil Mazzarino / Unsplash. */
+.hero{height:650px}
+.hero>img{width:100%;height:100%;object-fit:cover;object-position:center 48%;opacity:1}
+.hero>.shade{background:linear-gradient(90deg,#101211ed 0%,#101211bc 31%,#10121138 60%,#1012110a 100%),linear-gradient(0deg,#101211,transparent 30%)}
+.hero-copy{top:65px}.hero h1{font-size:clamp(44px,4.6vw,66px)}
+.hero-credit{font-size:8px;letter-spacing:.9px;opacity:.8}.hero-credit:hover{color:var(--accent);opacity:1}
+@media(min-width:1500px){.hero{height:720px}.hero-copy{top:95px}}
+@media(max-width:650px){.hero{height:640px}.hero>img{object-position:58% center}.hero>.shade{background:linear-gradient(90deg,#101211d9,#10121165),linear-gradient(0deg,#101211,transparent 45%)}.hero-copy{top:60px}.hero h1{font-size:43px}.hero-foot{align-items:flex-start;gap:12px;flex-direction:column}.hero-credit{font-size:7px;letter-spacing:.4px}}
