@@ -38,5 +38,6 @@ A prévia no Sites é separada e não recebe automaticamente os commits deste re
 Preto #101211 e verde-lima #D3F56B. Logo em SVG e favicon em dist/assets, adaptados à paleta escolhida.
 
 ## Capa provisória
-A hero utiliza provisoriamente a fotografia horizontal de Fil Mazzarino: https://unsplash.com/photos/running-woman-under-bare-tree-during-daytime-VyOtjKmSnKQ
-Licença: https://unsplash.com/license (consultada em 30/10/2026). A foto não integra o acervo vendido pelo Lucas e será substituída por uma fotografia própria. Crédito também exibido na hero. Os demais destaques utilizam as fotografias fornecidas do Lucas.
+A hero utiliza um recorte horizontal da fotografia de corrida de rua em Brasília publicada por basquetebol br no Pexels: https://www.pexels.com/photo/man-among-people-in-race-on-street-20037838/
+Fonte original: 2667 x 4000 pixels. Versão para a hero: 2200 x 1232, WebP qualidade 90, sem desfoque ou ampliação do original.
+Licença: https://www.pexels.com/license/ (consultada em 30/10/2026). Crédito exibido na hero. Esta foto não faz parte do acervo vendido pelo Lucas; a capa será substituída por fotografia própria.
