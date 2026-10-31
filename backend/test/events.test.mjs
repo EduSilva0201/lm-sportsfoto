@@ -2,10 +2,19 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, win32, posix } from 'node:path';
 import { once } from 'node:events';
-import { createApp } from '../server.mjs';
+import { createApp, isInside } from '../server.mjs';
 import { passwordHash } from '../auth.mjs';
+
+test('arquivos estáticos: caminhos Windows e Linux sem escapar da pasta',()=>{
+ for(const [paths,directory] of [[win32,'C:\\Users\\Eduardo\\lm-sportsfoto\\dist'],[posix,'/workspace/lm-sportsfoto/dist']]) {
+  assert.equal(isInside(directory,paths.join(directory,'index.html'),paths),true);
+  assert.equal(isInside(directory,paths.join(directory,'assets','logo.svg'),paths),true);
+  assert.equal(isInside(directory,paths.join(directory,'..','backend','server.mjs'),paths),false);
+  assert.equal(isInside(directory,directory+'-other'+paths.sep+'secret',paths),false);
+ }
+});
 
 test('login, catálogo persistente, rascunhos, validação, uploads e permissões',async t=>{
  const dataDir=await mkdtemp(join(tmpdir(),'lm-test-'));
@@ -53,7 +62,12 @@ test('login, catálogo persistente, rascunhos, validação, uploads e permissõe
   assert.equal((await request(`/api/admin/events/${id}`,'DELETE')).status,404);
   assert.equal((await fetch(origin+'/.local/admin.json')).status,404);
   assert.equal((await fetch(origin+'/backend/server.mjs')).status,404);
-  assert.equal((await fetch(origin+'/admin/')).status,200);
+  assert.equal((await fetch(origin+'/')).status,200);
+  assert.equal((await fetch(origin+'/style.css')).status,200);
+  assert.equal((await fetch(origin+'/assets/logo-lm-sportsfoto.svg')).status,200);
+  const adminPage=await fetch(origin+'/admin/');
+  assert.equal(adminPage.status,200);
+  assert.match(adminPage.headers.get('content-security-policy'),/frame-ancestors 'none'/);
   assert.equal((await request('/api/auth/logout','POST')).status,200);
   assert.equal((await request('/api/admin/events')).status,401);
   assert.equal((await request('/api/admin/events','POST',draft)).status,401);
