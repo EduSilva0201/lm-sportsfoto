@@ -1,0 +1,12 @@
+{
+  "name": "lm-sportsfoto",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24 <25" },
+  "scripts": {
+    "dev": "node backend/server.mjs",
+    "admin:setup": "node backend/setup.mjs",
+    "test": "node --test backend/test/*.test.mjs"
+  }
+}
