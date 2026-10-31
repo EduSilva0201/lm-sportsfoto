@@ -2,31 +2,42 @@
 
 **🚧 Em desenvolvimento**
 
-Projeto de site de fotografia esportiva, em desenvolvimento, para revisão de layout e navegação. Site em português, responsivo, com eventos filtráveis, galerias demonstrativas, seleção local e formulário com validação.
+Projeto de site de fotografia esportiva, em desenvolvimento, para revisão de layout e navegação. Site em português, responsivo, com catálogo de eventos externos, loja própria em desenvolvimento e painel administrativo local.
 
 ## Estrutura
 - `dist/index.html`: estrutura das páginas e seções.
 - `dist/style.css`: identidade visual e layout responsivo.
-- `dist/app.js`: filtros, galerias e seleção demonstrativa no navegador.
+- `dist/app.js`: filtros e conexão com a API de eventos, com prévia demonstrativa na hospedagem estática.
 - `dist/assets`: logo, favicon e versões otimizadas das fotografias de Lucas Martins. Os arquivos antigos de demonstração não são usados na interface atual.
 
 ## Estado atual
-Não há backend, autenticação, envio de orçamento, cobrança ou entrega de fotos. As fotografias atuais são de Lucas Martins. Os preços, nomes e locais dos eventos continuam como exemplos identificados na interface. A seleção local não contém dados pessoais nem representa um pedido.
+O backend local possui login administrativo, banco SQLite persistente, cadastro/edição/exclusão de eventos, rascunhos, publicação e upload de capas. O catálogo consome a API quando executado pelo servidor local. O backend ainda não foi publicado na Cloudflare.
+
+A hospedagem estática mantém os eventos demonstrativos. A loja e o carrinho avisam que a venda direta está em desenvolvimento. Não há cobrança, entrega de fotos nem envio de orçamento. As fotos do catálogo são de Lucas Martins; a capa provisória tem crédito abaixo.
+
+## Rodar o projeto completo
+Requer Node.js 24. Na raiz do projeto:
+
+```sh
+npm run admin:setup
+npm run dev
+```
+
+Entre em http://127.0.0.1:3000/admin/ com o e-mail e a senha criados no terminal. O site está em http://127.0.0.1:3000/. O servidor aceita somente acesso local.
+
+Dados e credenciais ficam em `.local/`, ignorada pelo Git. Não inclua essa pasta em compartilhamentos. Execute `npm test` para testar a API com banco temporário. Veja o [guia do backend](backend/README.md) para detalhes e limitações.
 
 ## Próximas implementações
-1. Confirmar nomes, datas e links dos eventos, completar a biografia e aprovar o visual.
-2. Backend e banco com eventos, fotos, pedidos, usuários e permissões.
-3. Painel administrativo com upload direto para armazenamento privado e criação de prévias com marca-d’água.
-4. Asaas: criação de cobranças no servidor, validação de webhook, idempotência e atualização segura dos pedidos.
-5. Entrega autorizada por links temporários, notificações, recuperação de acesso e backups.
-
-Segredos somente nas configurações protegidas de runtime. A marca-d’água visual desta demonstração não protege originais: em produção serão geradas prévias próprias sem exposição do original.
+1. Confirmar nomes, datas e links reais dos eventos e aprovar o painel com o Lucas.
+2. Adaptar o servidor local para Workers, D1 e R2 e configurar autenticação para produção.
+3. Gestão do portfólio, fotos da loja, prévias com marca-d’água e orçamento.
+4. Depois da primeira versão: integração Asaas, pedidos e entrega autorizada.
 
 ## Créditos das imagens demonstrativas
 https://images.unsplash.com/photo-1552674605-db6ffd4facb5
 https://images.unsplash.com/photo-1574629810360-7efbbe195018
 
-## Abrir no computador
+## Abrir apenas a prévia visual
 
 Baixe ou clone este repositório e abra `dist/index.html` no navegador. Alternativamente, com Python instalado, rode `python -m http.server 8000 --directory dist` na raiz e acesse http://localhost:8000. Não é necessário instalar dependências.
 
