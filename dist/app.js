@@ -1,5 +1,5 @@
 // Catálogo demonstrativo. url recebe o endereço HTTPS do álbum externo.
-const events = [
+let events = [
  {id:'corrida-parque',name:'Corrida no parque',type:'Corrida',platform:'Foco Radical',image:'0392'},
  {id:'futebol-domingo',name:'Futebol de domingo',type:'Futebol',platform:'Banlek',image:'7277'},
  {id:'treino-manha',name:'Treino ao ar livre',type:'Corrida',platform:'Outra plataforma',image:'1584'},
@@ -22,8 +22,8 @@ function renderEvents(){
  const shown=list.slice(0,visibleLimit);
  $('#event-grid').innerHTML=shown.map(e=>{
   const url=albumURL(e.url),name=escapeHTML(e.name);
-  const action=url?`<a class="album-link" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" aria-label="Ver ${name} em ${escapeHTML(e.platform)} (nova aba)">Ver álbum na plataforma <span>↗</span></a>`:`<button class="album-link pending-link" data-event="${e.id}">Detalhes do álbum <span>↗</span></button>`;
-  return `<article class="event-card album-card"><div class="event-photo"><img src="assets/lucas-${e.image}.svg" alt="${e.type}, fotografia de Lucas Martins" loading="lazy"><span class="tag">${e.type.toUpperCase()}</span><span class="album-status">${url?'Álbum disponível':'Exemplo · link pendente'}</span></div><div class="album-body"><p class="event-meta">${e.date?escapeHTML(e.date):'DATA A CONFIRMAR'}</p><h3>${name}</h3><p class="location">${escapeHTML(e.place)}</p><div class="destination"><span>Compra em</span><strong>${escapeHTML(e.platform)}${url?'':' · exemplo'}</strong></div>${action}</div></article>`;
+  const action=url?`<a class="album-link" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" aria-label="Ver ${name} em ${escapeHTML(e.platform)} (nova aba)">Ver álbum na plataforma <span>↗</span></a>`:`<button class="album-link pending-link" data-event="${escapeHTML(e.id)}">Detalhes do álbum <span>↗</span></button>`;
+  return `<article class="event-card album-card"><div class="event-photo"><img src="${escapeHTML(e.image.startsWith('/uploads/')?e.image:`assets/lucas-${e.image}.svg`)}" alt="${escapeHTML(e.type)}, fotografia de Lucas Martins" loading="lazy"><span class="tag">${escapeHTML(e.type.toUpperCase())}</span><span class="album-status">${url?'Álbum disponível':'Exemplo · link pendente'}</span></div><div class="album-body"><p class="event-meta">${e.date?escapeHTML(e.date):'DATA A CONFIRMAR'}</p><h3>${name}</h3><p class="location">${escapeHTML(e.place)}</p><div class="destination"><span>Compra em</span><strong>${escapeHTML(e.platform)}${url?'':' · exemplo'}</strong></div>${action}</div></article>`;
  }).join('');
  $('#event-count').textContent=`${list.length} ${list.length===1?'álbum encontrado':'álbuns encontrados'}`;
  $('#shown-count').textContent=list.length?`Mostrando ${shown.length} de ${list.length} álbuns`:'';
@@ -51,6 +51,27 @@ $('.menu').onclick=()=>{const open=$('nav').classList.toggle('open');$('.menu').
 document.querySelectorAll('nav a').forEach(a=>a.onclick=()=>{$('nav').classList.remove('open');$('.menu').setAttribute('aria-expanded','false');});
 $('#quote').onsubmit=e=>{e.preventDefault();$('#form-status').textContent='Prévia validada! O formulário está pronto para receber a integração de envio. Nenhuma mensagem foi enviada.';};
 renderEvents();
+// O servidor local fornece o catálogo real. O site estático mantém a prévia demonstrativa.
+(async () => {
+ try {
+  if (location.protocol === 'file:') return;
+  const response = await fetch('/api/events', {headers:{Accept:'application/json'}});
+  if (response.status === 404 || (response.ok && !response.headers.get('content-type')?.includes('application/json'))) return;
+  if (!response.ok) throw Error('Falha no catálogo');
+  const data = await response.json();
+  if (!Array.isArray(data.events)) throw Error('Resposta inválida');
+  events = data.events;
+  document.querySelector('.events .demo-note').hidden = true;
+  document.querySelector('#empty h3').textContent = 'Nenhum evento encontrado.';
+  resetListing();
+ } catch {
+  events = []; renderEvents();
+  document.querySelector('.events .demo-note').hidden = true;
+  document.querySelector('#empty h3').textContent = 'Não foi possível carregar os eventos.';
+  document.querySelector('#empty p').textContent = 'Atualize a página para tentar novamente.';
+  document.querySelector('#reset-filters').hidden = true;
+ }
+})();
 
 // Efeitos decorativos progressivos: conteúdo continua acessível sem animações.
 (() => {
