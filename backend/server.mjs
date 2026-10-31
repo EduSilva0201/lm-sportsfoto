@@ -2,7 +2,7 @@ import { createServer } from 'node:http';
 import { DatabaseSync } from 'node:sqlite';
 import { mkdirSync, readFileSync, existsSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
-import { resolve, extname, dirname } from 'node:path';
+import pathTools, { resolve, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { tokenHash, verifyPassword } from './auth.mjs';
@@ -12,6 +12,10 @@ const covers = ['0392','7277','1584','7215','9433','2091','6759','2024'];
 const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css', '.js':'text/javascript', '.svg':'image/svg+xml', '.webp':'image/webp', '.jpg':'image/jpeg', '.png':'image/png', '.ico':'image/x-icon' };
 class HttpError extends Error { constructor(status, message) { super(message); this.status = status; } }
 const fail = (status, message) => { throw new HttpError(status, message); };
+export function isInside(directory, file, paths = pathTools) {
+ const relative = paths.relative(directory, file);
+ return relative !== '' && relative !== '..' && !relative.startsWith('..' + paths.sep) && !paths.isAbsolute(relative);
+}
 async function body(req, limit) {
  let length = 0; const chunks = [];
  for await (const chunk of req) { length += chunk.length; if (length > limit) fail(413, 'Arquivo ou solicitação muito grande.'); chunks.push(chunk); }
@@ -138,10 +142,10 @@ export function createApp({ dataDir = resolve(root,'.local') } = {}) {
     const relative = decodeURIComponent(path === '/'?'/index.html':path);
     if(relative.split('/').some(s=>s.startsWith('.') || s.includes('\\'))) fail(404,'Arquivo não encontrado.');
     file = resolve(root,'dist','.'+relative);
-    if(!file.startsWith(resolve(root,'dist')+'/')) fail(404,'Arquivo não encontrado.');
+    if(!isInside(resolve(root,'dist'),file)) fail(404,'Arquivo não encontrado.');
    }
    let bytes; try { bytes = await readFile(file); } catch { fail(404,'Arquivo não encontrado.'); }
-   if(file.includes('/backend/admin/')) res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
+   if(isInside(resolve(root,'backend/admin'),file)) res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
    res.writeHead(200,{'Content-Type':mime[extname(file)] || 'application/octet-stream'});
    res.end(req.method==='HEAD'?undefined:bytes);
   } catch(error) { send(res,error.status || 500,{error:error.status?error.message:'Não foi possível concluir. Tente novamente.'}); }
