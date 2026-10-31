@@ -1,12 +1,56 @@
-const events=[{id:'corrida',name:'Corrida no parque',type:'Corrida',date:'Evento de exemplo · 01',place:'Local a definir',image:'assets/lucas-0392.svg',photos:['0392','1584','9433']},{id:'futebol',name:'Dentro das quatro linhas',type:'Futebol',date:'Evento de exemplo · 02',place:'Local a definir',image:'assets/lucas-7277.svg',photos:['7277','7215','2024']},{id:'treino',name:'Cada treino, uma conquista',type:'Corrida',date:'Evento de exemplo · 03',place:'Local a definir',image:'assets/lucas-1584.svg',photos:['1584','9433','0392']}];
-let filter='Todos',selection=[];try{const saved=JSON.parse(localStorage.getItem('lm-demo-selection')||'[]');if(Array.isArray(saved))selection=saved.filter(x=>events.some(e=>e.id===x.event)&&[1,2,3].includes(x.photo));}catch{}
-const $=s=>document.querySelector(s),money=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-function renderEvents(){const query=$('#search').value.toLocaleLowerCase('pt-BR');const list=events.filter(e=>(filter==='Todos'||e.type===filter)&&`${e.name} ${e.place} ${e.type}`.toLocaleLowerCase('pt-BR').includes(query));$('#event-grid').innerHTML=list.map(e=>`<button class="event-card" data-event="${e.id}"><div class="event-photo"><img src="${e.image}" alt="${e.type}, fotografia de Lucas Martins" loading="lazy"><span class="tag">${e.type.toUpperCase()}</span><span class="arrow"><span class="album-cta">Ver fotos</span><span aria-hidden="true">↗</span></span></div><p class="event-meta">${e.date.toUpperCase()}</p><h3>${e.name}</h3><span class="location">${e.place} · Explorar galeria ↗</span></button>`).join('');$('#empty').hidden=!!list.length;}
-function save(){try{localStorage.setItem('lm-demo-selection',JSON.stringify(selection));}catch{}$('#count').textContent=selection.length;}
-function openGallery(id){const e=events.find(e=>e.id===id);$('#gallery-title').textContent=e.name;$('#photos').innerHTML=[1,2,3].map(n=>`<article class="photo-choice"><div class="photo-preview"><img src="assets/lucas-${e.photos[n-1]}.svg" alt="Fotografia de Lucas Martins, prévia ${n}"><span class="watermark">LM SPORTSFOTO</span></div><p>Foto de exemplo ${n} · ${money(20)}</p><button data-add="${e.id}:${n}">${selection.some(x=>x.event===e.id&&x.photo===n)?'Selecionada ✓':'Selecionar foto +'}</button></article>`).join('');if(!$('#gallery').open)$('#gallery').showModal();}
-$('#search').addEventListener('input',renderEvents);document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b));});renderEvents();});$('#event-grid').onclick=e=>{const b=e.target.closest('[data-event]');if(b)openGallery(b.dataset.event);};$('#photos').onclick=e=>{const b=e.target.closest('[data-add]');if(!b)return;const [id,n]=b.dataset.add.split(':');const photo=Number(n);if(!selection.some(x=>x.event===id&&x.photo===photo))selection.push({event:id,photo});save();openGallery(id);};
-function renderCart(){$('#cart-items').innerHTML=selection.length?selection.map((x,i)=>`<div class="cart-row"><span>${events.find(e=>e.id===x.event).name}<br><small>Foto de exemplo ${x.photo} · ${money(20)}</small></span><button data-remove="${i}" aria-label="Remover foto ${x.photo}">Remover</button></div>`).join(''):'<p>Sua seleção está vazia. Explore os eventos para escolher fotos.</p>';$('#total').textContent=money(selection.length*20);}
-$('#cart-open').onclick=()=>{renderCart();$('#cart').showModal();};$('#cart-items').onclick=e=>{const b=e.target.closest('[data-remove]');if(b){selection.splice(Number(b.dataset.remove),1);save();renderCart();}};document.querySelectorAll('.close').forEach(b=>b.onclick=()=>b.closest('dialog').close());$('#continue').onclick=()=>$('#cart').close();document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}}));$('.menu').onclick=()=>{const open=$('nav').classList.toggle('open');$('.menu').setAttribute('aria-expanded',String(open));};document.querySelectorAll('nav a').forEach(a=>a.onclick=()=>{$('nav').classList.remove('open');$('.menu').setAttribute('aria-expanded','false');});$('#quote').onsubmit=e=>{e.preventDefault();$('#form-status').textContent='Prévia validada! O formulário está pronto para receber a integração de envio. Nenhuma mensagem foi enviada.';};renderEvents();save();
+// Catálogo demonstrativo. url recebe o endereço HTTPS do álbum externo.
+const events = [
+ {id:'corrida-parque',name:'Corrida no parque',type:'Corrida',platform:'Foco Radical',image:'0392'},
+ {id:'futebol-domingo',name:'Futebol de domingo',type:'Futebol',platform:'Banlek',image:'7277'},
+ {id:'treino-manha',name:'Treino ao ar livre',type:'Corrida',platform:'Outra plataforma',image:'1584'},
+ {id:'partida',name:'Dentro das quatro linhas',type:'Futebol',platform:'Foco Radical',image:'7215'},
+ {id:'ritmo',name:'No seu ritmo',type:'Corrida',platform:'Banlek',image:'9433'},
+ {id:'conquista',name:'Dia de conquista',type:'Futebol',platform:'Outra plataforma',image:'2091'},
+ {id:'superacao',name:'Treino de superação',type:'Corrida',platform:'Foco Radical',image:'1584'},
+ {id:'equipe',name:'Em equipe',type:'Futebol',platform:'Banlek',image:'6759'},
+ {id:'precisao',name:'Futebol em movimento',type:'Futebol',platform:'Outra plataforma',image:'2024'}
+].map(e => ({...e,place:'Local a confirmar',date:null,url:null}));
+const $ = s => document.querySelector(s);
+let modality='Todos',visibleLimit=6;
+const normalize=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR');
+const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function albumURL(value){try{const url=new URL(value);return url.protocol==='https:'&&!url.username&&!url.password?url.href:null;}catch{return null;}}
+function renderEvents(){
+ const query=normalize($('#search').value.trim()),platform=$('#platform-filter').value;
+ let list=events.filter(e=>(modality==='Todos'||e.type===modality)&&(platform==='Todas'||e.platform===platform)&&normalize(`${e.name} ${e.place} ${e.type}`).includes(query));
+ if($('#event-sort').value==='name')list.sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
+ const shown=list.slice(0,visibleLimit);
+ $('#event-grid').innerHTML=shown.map(e=>{
+  const url=albumURL(e.url),name=escapeHTML(e.name);
+  const action=url?`<a class="album-link" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" aria-label="Ver ${name} em ${escapeHTML(e.platform)} (nova aba)">Ver álbum na plataforma <span>↗</span></a>`:`<button class="album-link pending-link" data-event="${e.id}">Detalhes do álbum <span>↗</span></button>`;
+  return `<article class="event-card album-card"><div class="event-photo"><img src="assets/lucas-${e.image}.svg" alt="${e.type}, fotografia de Lucas Martins" loading="lazy"><span class="tag">${e.type.toUpperCase()}</span><span class="album-status">${url?'Álbum disponível':'Exemplo · link pendente'}</span></div><div class="album-body"><p class="event-meta">${e.date?escapeHTML(e.date):'DATA A CONFIRMAR'}</p><h3>${name}</h3><p class="location">${escapeHTML(e.place)}</p><div class="destination"><span>Compra em</span><strong>${escapeHTML(e.platform)}${url?'':' · exemplo'}</strong></div>${action}</div></article>`;
+ }).join('');
+ $('#event-count').textContent=`${list.length} ${list.length===1?'álbum encontrado':'álbuns encontrados'}`;
+ $('#shown-count').textContent=list.length?`Mostrando ${shown.length} de ${list.length} álbuns`:'';
+ $('#load-more').hidden=shown.length>=list.length;
+ $('#empty').hidden=list.length>0;
+}
+function resetListing(){visibleLimit=6;renderEvents();}
+$('#search').addEventListener('input',resetListing);
+$('#platform-filter').addEventListener('change',resetListing);
+$('#event-sort').addEventListener('change',resetListing);
+document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{modality=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b));});resetListing();});
+$('#load-more').onclick=()=>{visibleLimit+=6;renderEvents();};
+$('#reset-filters').onclick=()=>{modality='Todos';$('#search').value='';$('#platform-filter').value='Todas';$('#event-sort').value='default';document.querySelectorAll('[data-filter]').forEach(b=>{b.classList.toggle('active',b.dataset.filter==='Todos');b.setAttribute('aria-pressed',String(b.dataset.filter==='Todos'));});resetListing();};
+$('#event-grid').onclick=e=>{const button=e.target.closest('[data-event]');if(!button)return;const event=events.find(x=>x.id===button.dataset.event);$('#event-title').textContent=event.name;$('#event-destination').textContent=`Destino de exemplo: ${event.platform}. A compra deste álbum acontecerá na plataforma externa.`;$('#event-details').showModal();};
+$('#event-close').onclick=()=>$('#event-details').close();
+const shopPhotos=[['9433','Corrida / Seu melhor ritmo'],['2024','Futebol / Dentro de campo'],['6759','Esporte / Em equipe'],['2091','Futebol / Sua conquista']];
+$('#shop-grid').innerHTML=shopPhotos.map(([id,name])=>`<button class="shop-photo" data-shop aria-haspopup="dialog"><div><img src="assets/lucas-${id}.svg" alt="${name}, fotografia de Lucas Martins" loading="lazy"><span>EM BREVE</span></div><h3>${name}</h3><p>Venda direta pelo site · em desenvolvimento ↗</p></button>`).join('');
+function openShop(){$('#cart').showModal();}
+$('#cart-open').onclick=openShop;
+$('#shop-grid').onclick=e=>{if(e.target.closest('[data-shop]'))openShop();};
+$('#shop-events').onclick=()=>{$('#cart').close();location.hash='eventos';$('#search').focus({preventScroll:true});};
+document.querySelectorAll('.close').forEach(b=>b.onclick=()=>b.closest('dialog').close());
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}}));
+$('.menu').onclick=()=>{const open=$('nav').classList.toggle('open');$('.menu').setAttribute('aria-expanded',String(open));};
+document.querySelectorAll('nav a').forEach(a=>a.onclick=()=>{$('nav').classList.remove('open');$('.menu').setAttribute('aria-expanded','false');});
+$('#quote').onsubmit=e=>{e.preventDefault();$('#form-status').textContent='Prévia validada! O formulário está pronto para receber a integração de envio. Nenhuma mensagem foi enviada.';};
+renderEvents();
 
 // Efeitos decorativos progressivos: conteúdo continua acessível sem animações.
 (() => {
