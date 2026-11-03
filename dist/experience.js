@@ -123,8 +123,14 @@
   const button = document.querySelector('#back-to-top');
   if (!button) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const footer = document.querySelector('footer');
   const update = () => {
     button.hidden = window.scrollY < Math.max(320, window.innerHeight * 0.6);
+    const footerVisible = footer
+      ? Math.max(0, innerHeight - footer.getBoundingClientRect().top)
+      : 0;
+    const gap = innerWidth <= 650 ? 16 : 20;
+    button.style.bottom = `calc(${gap + footerVisible}px + env(safe-area-inset-bottom))`;
   };
   window.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update);

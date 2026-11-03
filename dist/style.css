@@ -524,10 +524,14 @@ form .button {
   font-size: 13px;
 }
 footer {
-  padding: 40px 5%;
+  padding: 20px 5%;
   display: flex;
   align-items: center;
-  gap: 35px;
+  gap: 24px;
+}
+footer .brand img {
+  width: 104px;
+  height: 54px;
 }
 footer > span {
   font-size: 12px;
@@ -806,7 +810,8 @@ dialog > p {
   }
   footer {
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 10px 16px;
+    padding-block: 16px;
   }
   footer small {
     width: 100%;
@@ -905,8 +910,8 @@ form select:focus {
     font-size: 0.96em;
   }
   footer .brand img {
-    width: 145px;
-    height: 76px;
+    width: 92px;
+    height: 48px;
   }
 }
 
@@ -1057,22 +1062,27 @@ form select:focus {
 
 /* Cabeçalho compacto: mantém a marca legível sem ocupar espaço da hero. */
 header {
-  height: 74px;
+  height: 62px;
 }
 header .brand img {
-  width: 126px;
-  height: 62px;
+  width: 104px;
+  height: 50px;
 }
 @media (max-width: 650px) {
   header {
-    height: 66px;
-  }
-  header .brand img {
-    width: 112px;
     height: 56px;
   }
+  header .brand img {
+    width: 92px;
+    height: 44px;
+  }
   nav {
-    top: 66px;
+    top: 56px;
+  }
+  header .menu {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
   }
 }
 
