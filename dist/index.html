@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta
       name="description"
-      content="LM SportsFoto — fotografia esportiva por Lucas Martins. Projeto privado em desenvolvimento."
+      content="LM SportsFoto — fotografia esportiva por Lucas Martins. Encontre suas fotos e solicite uma cobertura esportiva."
     />
     <title>LM SportsFoto | O seu esforço merece ser lembrado.</title>
     <meta name="theme-color" content="#101211" />
@@ -18,11 +18,9 @@
     />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body class="site-live">
     <a class="skip-link" href="#inicio">Pular para o conteúdo</a>
-    <div class="devbar">
-      PROJETO EM DESENVOLVIMENTO <span>Fotografias de Lucas Martins · site em desenvolvimento</span>
-    </div>
+    <div class="devbar" hidden></div>
     <header>
       <a class="brand" href="#inicio" aria-label="LM SportsFoto início"
         ><img src="assets/logo-lm-sportsfoto.svg" alt="LM SportsFoto" width="154" height="80" /></a
@@ -84,7 +82,7 @@
           class="hero-slide is-active"
           fetchpriority="high"
           src="assets/hero-brasilia.svg"
-          alt="Corredores em prova de rua em Brasília, fotografia provisória de basquetebol br no Pexels"
+          alt="Corredores em prova de rua em Brasília, fotografia de basquetebol br no Pexels"
         />
         <img
           id="hero-slide-2"
@@ -138,7 +136,7 @@
             href="https://www.pexels.com/photo/man-among-people-in-race-on-street-20037838/"
             target="_blank"
             rel="noopener noreferrer"
-            >BRASÍLIA · CAPA PROVISÓRIA / PEXELS
+            >BRASÍLIA · FOTO / PEXELS
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -236,9 +234,7 @@
           </div>
           <p id="event-count" role="status" aria-live="polite"></p>
         </div>
-        <p class="demo-note">
-          CATÁLOGO DEMONSTRATIVO · NOMES, DATAS, PLATAFORMAS E LINKS A CONFIRMAR COM O LUCAS
-        </p>
+
         <div class="event-grid" id="event-grid"></div>
         <div id="empty" class="empty-state" hidden>
           <h3>Nenhum evento encontrado.</h3>
@@ -438,8 +434,8 @@
             </p>
             <p id="bio-intro">Capturando performance, emoção e movimento.</p>
             <p class="muted" id="biography">
-              Este espaço receberá a história do Lucas, sua trajetória na fotografia e um retrato
-              pessoal. Estamos preparando cada detalhe com a identidade dele.
+              Fotografia esportiva por Lucas Martins. Registros de corrida, futebol e outras
+              modalidades, com foco na emoção e no movimento de cada momento.
             </p>
             <a
               class="text-link"
@@ -466,7 +462,12 @@
           </div>
         </div>
       </section>
-      <section class="testimonials section" id="depoimentos" aria-labelledby="testimonials-title">
+      <section
+        hidden
+        class="testimonials section"
+        id="depoimentos"
+        aria-labelledby="testimonials-title"
+      >
         <div class="section-top">
           <div>
             <p class="eyebrow">MEMÓRIAS QUE FICAM</p>
@@ -474,17 +475,11 @@
           </div>
           <p>Um espaço para as histórias de quem<br />vive o esporte diante das nossas lentes.</p>
         </div>
-        <p class="testimonials-notice">
-          <span>DEMONSTRAÇÃO</span> Os seis depoimentos e nomes abaixo são fictícios. As imagens são
-          ilustrativas e não representam as pessoas citadas.
-        </p>
+
         <div class="testimonials-grid">
           <article class="testimonial-card">
             <span class="testimonial-number" aria-hidden="true">01 /</span>
-            <blockquote id="testimonial-quote-1">
-              Cruzar a chegada já foi especial. Ter uma foto que traduz aquela emoção fez o momento
-              durar muito mais.
-            </blockquote>
+            <blockquote id="testimonial-quote-1"></blockquote>
             <div class="testimonial-person">
               <img
                 id="testimonial-image-1"
@@ -495,17 +490,14 @@
                 loading="lazy"
               />
               <div>
-                <h3 id="testimonial-name-1">Marina A.</h3>
-                <p id="testimonial-role-1">Corrida de rua</p>
+                <h3 id="testimonial-name-1"></h3>
+                <p id="testimonial-role-1"></p>
               </div>
             </div>
           </article>
           <article class="testimonial-card">
             <span class="testimonial-number" aria-hidden="true">02 /</span>
-            <blockquote id="testimonial-quote-2">
-              As fotos mostram a intensidade da partida e aqueles detalhes que a gente nem percebe
-              dentro de campo.
-            </blockquote>
+            <blockquote id="testimonial-quote-2"></blockquote>
             <div class="testimonial-person">
               <img
                 id="testimonial-image-2"
@@ -516,17 +508,14 @@
                 loading="lazy"
               />
               <div>
-                <h3 id="testimonial-name-2">Rafael M.</h3>
-                <p id="testimonial-role-2">Futebol amador</p>
+                <h3 id="testimonial-name-2"></h3>
+                <p id="testimonial-role-2"></p>
               </div>
             </div>
           </article>
           <article class="testimonial-card">
             <span class="testimonial-number" aria-hidden="true">03 /</span>
-            <blockquote id="testimonial-quote-3">
-              Gostei do cuidado com a luz e da naturalidade das imagens. Me reconheci em cada
-              registro do treino.
-            </blockquote>
+            <blockquote id="testimonial-quote-3"></blockquote>
             <div class="testimonial-person">
               <img
                 id="testimonial-image-3"
@@ -537,17 +526,14 @@
                 loading="lazy"
               />
               <div>
-                <h3 id="testimonial-name-3">Camila S.</h3>
-                <p id="testimonial-role-3">Ensaio de atleta</p>
+                <h3 id="testimonial-name-3"></h3>
+                <p id="testimonial-role-3"></p>
               </div>
             </div>
           </article>
           <article class="testimonial-card">
             <span class="testimonial-number" aria-hidden="true">04 /</span>
-            <blockquote id="testimonial-quote-4">
-              Foi muito bom rever os momentos da prova. As imagens contam a história do dia, do
-              aquecimento à conquista.
-            </blockquote>
+            <blockquote id="testimonial-quote-4"></blockquote>
             <div class="testimonial-person">
               <img
                 id="testimonial-image-4"
@@ -558,17 +544,14 @@
                 loading="lazy"
               />
               <div>
-                <h3 id="testimonial-name-4">Bruno L.</h3>
-                <p id="testimonial-role-4">Cobertura de evento</p>
+                <h3 id="testimonial-name-4"></h3>
+                <p id="testimonial-role-4"></p>
               </div>
             </div>
           </article>
           <article class="testimonial-card">
             <span class="testimonial-number" aria-hidden="true">05 /</span>
-            <blockquote id="testimonial-quote-5">
-              Nossa equipe ganhou uma lembrança muito bonita. As fotos registraram a energia e a
-              união do grupo.
-            </blockquote>
+            <blockquote id="testimonial-quote-5"></blockquote>
             <div class="testimonial-person">
               <img
                 id="testimonial-image-5"
@@ -579,17 +562,14 @@
                 loading="lazy"
               />
               <div>
-                <h3 id="testimonial-name-5">Juliana P.</h3>
-                <p id="testimonial-role-5">Esporte em equipe</p>
+                <h3 id="testimonial-name-5"></h3>
+                <p id="testimonial-role-5"></p>
               </div>
             </div>
           </article>
           <article class="testimonial-card">
             <span class="testimonial-number" aria-hidden="true">06 /</span>
-            <blockquote id="testimonial-quote-6">
-              A comemoração passou em segundos, mas o registro ficou. É uma lembrança que eu teria
-              orgulho de guardar.
-            </blockquote>
+            <blockquote id="testimonial-quote-6"></blockquote>
             <div class="testimonial-person">
               <img
                 id="testimonial-image-6"
@@ -600,8 +580,8 @@
                 loading="lazy"
               />
               <div>
-                <h3 id="testimonial-name-6">Diego R.</h3>
-                <p id="testimonial-role-6">Competição esportiva</p>
+                <h3 id="testimonial-name-6"></h3>
+                <p id="testimonial-role-6"></p>
               </div>
             </div>
           </article>
@@ -832,7 +812,7 @@
             style="vertical-align: -0.125em"
           >
             <path d="M5 19 19 5M5 5h14v14" /></svg></span></a
-      ><small>Projeto privado · Versão inicial</small>
+      ><small>LM SportsFoto · Lucas Martins</small>
     </footer>
     <dialog id="event-details" aria-labelledby="event-title">
       <div class="dialog-head">
@@ -845,10 +825,7 @@
       <p id="event-destination"></p>
       <div class="pending-note">
         <strong>Link do álbum ainda não cadastrado.</strong>
-        <p>
-          Este é um exemplo de organização. Quando o Lucas informar o endereço real, o botão deste
-          álbum abrirá a página de compra na plataforma indicada.
-        </p>
+        <p>O link para compra deste álbum estará disponível aqui assim que for publicado.</p>
       </div>
       <button class="button outline-button" id="event-close">
         Continuar explorando

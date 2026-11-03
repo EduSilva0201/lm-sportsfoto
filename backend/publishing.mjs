@@ -21,24 +21,21 @@ function metadata(title, description, url, image) {
   );
 }
 export function renderHome(template, content, origin) {
-  if (content.testimonialsMode === 'hidden')
+  if (content.testimonialsMode !== 'real')
     template = template.replace(
-      /<section\s+class="testimonials section"/,
+      /<section\s+(?:hidden\s+)?class="testimonials section"/,
       '<section hidden class="testimonials section"'
+    );
+  if (content.testimonialsMode === 'real')
+    template = template.replace(
+      '<section hidden class="testimonials section"',
+      '<section class="testimonials section"'
     );
   if (content.siteStage !== 'live')
     template = template.replace(
       '</head>',
       '<meta name="robots" content="noindex, nofollow"></head>'
     );
-  else
-    template = template
-      .replace('<div class="devbar">', '<div class="devbar" hidden>')
-      .replace('<body>', '<body class="site-live">')
-      .replace(
-        '<small>Projeto privado · Versão inicial</small>',
-        '<small>LM SportsFoto · Lucas Martins</small>'
-      );
 
   const title = content.seoTitle || 'LM SportsFoto | Fotografia esportiva por Lucas Martins';
   const description =

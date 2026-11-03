@@ -1,57 +1,5 @@
-// Catálogo demonstrativo. url recebe o endereço HTTPS do álbum externo.
-let events = [
-  {
-    id: 'corrida-parque',
-    name: 'Corrida no parque',
-    type: 'Corrida',
-    platform: 'Foco Radical',
-    image: '0392',
-  },
-  {
-    id: 'futebol-domingo',
-    name: 'Futebol de domingo',
-    type: 'Futebol',
-    platform: 'Banlek',
-    image: '7277',
-  },
-  {
-    id: 'treino-manha',
-    name: 'Treino ao ar livre',
-    type: 'Corrida',
-    platform: 'Outra plataforma',
-    image: '1584',
-  },
-  {
-    id: 'partida',
-    name: 'Dentro das quatro linhas',
-    type: 'Futebol',
-    platform: 'Foco Radical',
-    image: '7215',
-  },
-  { id: 'ritmo', name: 'No seu ritmo', type: 'Corrida', platform: 'Banlek', image: '9433' },
-  {
-    id: 'conquista',
-    name: 'Dia de conquista',
-    type: 'Futebol',
-    platform: 'Outra plataforma',
-    image: '2091',
-  },
-  {
-    id: 'superacao',
-    name: 'Treino de superação',
-    type: 'Corrida',
-    platform: 'Foco Radical',
-    image: '1584',
-  },
-  { id: 'equipe', name: 'Em equipe', type: 'Futebol', platform: 'Banlek', image: '6759' },
-  {
-    id: 'precisao',
-    name: 'Futebol em movimento',
-    type: 'Futebol',
-    platform: 'Outra plataforma',
-    image: '2024',
-  },
-].map((e) => ({ ...e, place: 'Local a confirmar', date: null, url: null }));
+// O catálogo é carregado pela API de eventos.
+let events = [];
 const $ = (s) => document.querySelector(s);
 let catalogConnected = false;
 let modality = 'Todos',
@@ -106,7 +54,7 @@ function renderEvents() {
       const action = url
         ? `<a class="album-link" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" aria-label="Ver ${name} em ${escapeHTML(e.platform)} (nova aba)">Ver álbum na plataforma <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="vertical-align:-0.125em"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a>`
         : `<button class="album-link pending-link" data-event="${escapeHTML(e.id)}">Detalhes do álbum <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="vertical-align:-0.125em"><path d="M5 19 19 5M5 5h14v14"/></svg></span></button>`;
-      return `<article class="event-card album-card"><div class="event-photo"><img src="${escapeHTML(e.image.startsWith('/uploads/') ? e.image : `assets/lucas-${e.image}.svg`)}" alt="${escapeHTML(e.type)}, fotografia de Lucas Martins" loading="lazy"><span class="tag">${escapeHTML(e.type.toUpperCase())}</span><span class="album-status">${url ? 'Álbum disponível' : 'Exemplo · link pendente'}</span></div><div class="album-body"><p class="event-meta">${e.date ? escapeHTML(e.date) : 'DATA A CONFIRMAR'}</p><h3>${name}</h3><p class="location">${escapeHTML(e.place)}</p>${e.photo_type ? `<p class="event-meta">${escapeHTML(e.photo_type)}</p>` : ''}<div class="destination"><span>Compra em</span><strong>${escapeHTML(e.platform)}${url ? '' : ' · exemplo'}</strong></div>${catalogConnected ? `<a class="event-detail-link" href="/eventos/${escapeHTML(e.id)}">Detalhes e compartilhamento <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="vertical-align:-0.125em"><path d="M5 19 19 5M5 5h14v14"/></svg></a>` : ''}${action}</div></article>`;
+      return `<article class="event-card album-card"><div class="event-photo"><img src="${escapeHTML(e.image.startsWith('/uploads/') ? e.image : `assets/lucas-${e.image}.svg`)}" alt="${escapeHTML(e.type)}, fotografia de Lucas Martins" loading="lazy"><span class="tag">${escapeHTML(e.type.toUpperCase())}</span><span class="album-status">${url ? 'Álbum disponível' : 'Álbum em breve'}</span></div><div class="album-body"><p class="event-meta">${e.date ? escapeHTML(e.date) : 'Data não informada'}</p><h3>${name}</h3><p class="location">${escapeHTML(e.place)}</p>${e.photo_type ? `<p class="event-meta">${escapeHTML(e.photo_type)}</p>` : ''}<div class="destination"><span>Compra em</span><strong>${escapeHTML(e.platform)}${url ? '' : ''}</strong></div>${catalogConnected ? `<a class="event-detail-link" href="/eventos/${escapeHTML(e.id)}">Detalhes e compartilhamento <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="vertical-align:-0.125em"><path d="M5 19 19 5M5 5h14v14"/></svg></a>` : ''}${action}</div></article>`;
     })
     .join('');
   $('#event-count').textContent =
@@ -170,7 +118,7 @@ $('#event-grid').onclick = (e) => {
   const event = events.find((x) => x.id === button.dataset.event);
   $('#event-title').textContent = event.name;
   $('#event-destination').textContent =
-    `Destino de exemplo: ${event.platform}. A compra deste álbum acontecerá na plataforma externa.`;
+    `Plataforma: ${event.platform}. A compra deste álbum acontecerá na plataforma externa.`;
   $('#event-details').showModal();
 };
 $('#event-close').onclick = () => $('#event-details').close();
@@ -220,7 +168,7 @@ document.querySelectorAll('nav a').forEach(
     })
 );
 renderEvents();
-// O servidor local fornece o catálogo real. O site estático mantém a prévia demonstrativa.
+// O catálogo publicado depende da API; não são exibidos eventos fictícios.
 (async () => {
   try {
     if (location.protocol === 'file:') return;
@@ -259,13 +207,11 @@ renderEvents();
     categories
       .filter((c) => c.kind === 'photo')
       .forEach((c) => photoFilter.add(new Option(c.name, c.name)));
-    document.querySelector('.events .demo-note').hidden = true;
     document.querySelector('#empty h3').textContent = 'Nenhum evento encontrado.';
     resetListing();
   } catch {
     events = [];
     renderEvents();
-    document.querySelector('.events .demo-note').hidden = true;
     document.querySelector('#empty h3').textContent = 'Não foi possível carregar os eventos.';
     document.querySelector('#empty p').textContent = 'Atualize a página para tentar novamente.';
     document.querySelector('#reset-filters').hidden = true;

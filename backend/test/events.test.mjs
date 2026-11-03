@@ -262,7 +262,10 @@ test('login, catálogo persistente, rascunhos, validação, uploads e permissõe
     assert.equal(initialContent.data.content.bioName, 'Lucas Martins');
     const page = await (await fetch(origin + '/')).text();
     assert.equal((page.match(/class="testimonial-card"/g) || []).length, 6);
-    assert.ok(page.includes('depoimentos e nomes abaixo são fictícios'));
+    assert.ok(!page.includes('depoimentos e nomes abaixo são fictícios'));
+    assert.equal(initialContent.data.content.testimonialsMode, 'hidden');
+    assert.equal(initialContent.data.content.siteStage, 'live');
+    assert.ok(!page.includes('PROJETO EM DESENVOLVIMENTO'));
     assert.equal(
       initialContent.data.fields.filter((field) => field.key.startsWith('testimonialImage')).length,
       6

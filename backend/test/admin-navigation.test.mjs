@@ -143,8 +143,8 @@ test('menu separa seções, preserva edições e salva somente a seção ativa',
     const quote = $('[data-text="testimonialQuote2"]');
     quote.value = '';
     quote.dispatchEvent(new window.Event('input', { bubbles: true }));
-    assert.equal($('#content-editor').checkValidity(), false);
-    assert.equal(details.open, true);
+    assert.equal($('#content-editor').checkValidity(), true);
+    assert.equal(details.open, false);
     await navigate('events');
     assert.equal($('#events-workspace').hidden, false);
     assert.deepEqual(errors, []);

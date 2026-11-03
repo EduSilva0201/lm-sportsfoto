@@ -32,12 +32,11 @@
               footer.textContent =
                 value === 'live'
                   ? 'LM SportsFoto · Lucas Martins'
-                  : 'Projeto privado · Versão inicial';
+                  : 'LM SportsFoto · Lucas Martins';
           }
 
           if (field.key === 'testimonialsMode') {
-            element.hidden = value === 'hidden';
-            document.querySelector('.testimonials-notice').hidden = value === 'real';
+            element.hidden = value !== 'real';
           }
         } else if (field.kind === 'phone') {
           element.hidden = !/^[1-9][0-9]{9,14}$/.test(value);

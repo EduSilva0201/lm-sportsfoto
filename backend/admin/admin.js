@@ -28,7 +28,7 @@ const sectionDefinitions = {
   testimonials: {
     title: 'Depoimentos',
     description:
-      'Edite os seis depoimentos e suas imagens. O aviso de demonstração permanece visível nesta etapa.',
+      'Cadastre somente depoimentos reais autorizados. Mantenha a seção oculta enquanto não houver depoimentos.',
   },
   contact: {
     title: 'Contato / WhatsApp',
