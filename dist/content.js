@@ -54,7 +54,32 @@
         } else if (element.tagName === 'META') {
           element.content = value;
         } else {
-          element.textContent = value;
+          const parts = String(value).split(/\u2197\uFE0F?/);
+          element.replaceChildren();
+          parts.forEach((part, index) => {
+            if (index) {
+              const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+              for (const [name, attribute] of Object.entries({
+                viewBox: '0 0 24 24',
+                width: '1em',
+                height: '1em',
+                fill: 'none',
+                stroke: 'currentColor',
+                'stroke-width': '2',
+                'stroke-linecap': 'round',
+                'stroke-linejoin': 'round',
+                'aria-hidden': 'true',
+                focusable: 'false',
+              }))
+                icon.setAttribute(name, attribute);
+              icon.style.verticalAlign = '-0.125em';
+              const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+              path.setAttribute('d', 'M5 19 19 5M5 5h14v14');
+              icon.append(path);
+              element.append(icon);
+            }
+            element.append(document.createTextNode(part));
+          });
           element.style.whiteSpace = 'pre-line';
           if (field.key === 'heroCredit') element.hidden = !value;
         }

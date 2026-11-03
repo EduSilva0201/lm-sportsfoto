@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "lm-sportsfoto-teste",
+  "account_id": "29a91e4ced662c23ea62b8ca83d9d8f5",
+  "main": "cloudflare/worker.mjs",
+  "compatibility_date": "2026-10-30",
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": ".cloudflare-build",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "lm-sportsfoto-teste",
+      "database_id": "847e591f-82f9-4a9b-8a2e-50044e2f0464",
+      "migrations_dir": "cloudflare/migrations",
+    },
+  ],
+  "r2_buckets": [{ "binding": "UPLOADS", "bucket_name": "lm-sportsfoto-teste-capas" }],
+  "vars": {
+    "PUBLIC_ORIGIN": "https://lm-sportsfoto-teste.edusilva0201.workers.dev",
+    "ACCESS_TEAM_DOMAIN": "https://morning-thunder-fcf7.cloudflareaccess.com",
+    "ACCESS_AUD": "2ea6adf53e1ae21e067e3bebedeb21d2332654595295b5697f614e9c00825b82",
+    "ADMIN_EMAILS": "eduardo088038@gmail.com",
+  },
+}
