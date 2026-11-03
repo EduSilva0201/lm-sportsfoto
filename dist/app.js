@@ -306,14 +306,14 @@ renderEvents();
   configureMotion();
 })();
 
-// Rastro de varinha mágica: canvas decorativo, sem interceptar cliques.
+// Rastro de luz: acompanha o cursor sem interceptar cliques.
 (() => {
   const hero = document.querySelector('.hero');
   if (!hero) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
   const canvas = document.createElement('canvas');
-  canvas.className = 'magic-trail';
+  canvas.className = 'light-trail';
   canvas.setAttribute('aria-hidden', 'true');
   hero.append(canvas);
   const ctx = canvas.getContext('2d');
@@ -321,47 +321,28 @@ renderEvents();
     canvas.remove();
     return;
   }
-  let particles = [],
+  let points = [],
     frame = 0,
-    lastTime = 0,
-    previous = null;
-  let width = 0,
-    height = 0,
-    lastEmit = 0;
-  const enabled = () => !reduced.matches && !document.hidden;
-  function resize() {
-    width = hero.clientWidth;
-    height = hero.clientHeight;
-    const ratio = Math.min(devicePixelRatio || 1, 1.25);
-    canvas.width = Math.round(width * ratio);
-    canvas.height = Math.round(height * ratio);
-    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-    particles = [];
-    previous = null;
-  }
+    previous = null,
+    width = 0,
+    height = 0;
+  const duration = 260;
+  const enabled = () => fine.matches && !reduced.matches && !document.hidden;
   function clear() {
     cancelAnimationFrame(frame);
     frame = 0;
-    lastTime = 0;
-    particles = [];
+    points = [];
     previous = null;
     ctx.clearRect(0, 0, width, height);
   }
-  function emit(x, y) {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = 12 + Math.random() * 28;
-    particles.push({
-      x,
-      y,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - 12,
-      age: 0,
-      life: 0.35 + Math.random() * 0.25,
-      size: 0.8 + Math.random() * 2,
-      star: Math.random() > 0.78,
-      rotation: Math.random() * Math.PI,
-      color: Math.random() > 0.7 ? '#f2ffd1' : '#d3f56b',
-    });
+  function resize() {
+    clear();
+    width = hero.clientWidth;
+    height = hero.clientHeight;
+    const ratio = enabled() ? Math.min(devicePixelRatio || 1, 1.25) : 0;
+    canvas.width = Math.round(width * ratio);
+    canvas.height = Math.round(height * ratio);
+    if (ratio) ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   }
   function draw(time) {
     frame = 0;
@@ -369,65 +350,47 @@ renderEvents();
       clear();
       return;
     }
-    const dt = lastTime ? Math.min((time - lastTime) / 1000, 0.04) : 1 / 60;
-    lastTime = time;
     ctx.clearRect(0, 0, width, height);
-    ctx.globalCompositeOperation = 'lighter';
-    particles = particles.filter((p) => p.age < p.life);
-    for (const p of particles) {
-      p.age += dt;
-      p.x += p.vx * dt;
-      p.y += p.vy * dt;
-      p.vy += 16 * dt;
-      const fade = Math.max(0, 1 - p.age / p.life);
-      const size = p.size * (0.35 + fade * 0.65);
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rotation + p.age * 0.7);
-      ctx.globalAlpha = fade * 0.85;
-      ctx.fillStyle = p.color;
-      // Sem shadowBlur por partícula: evita repintura cara.
+    points = points.filter((point) => time - point.time < duration);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#d3f56b';
+    for (let i = 1; i < points.length; i++) {
+      const point = points[i],
+        before = points[i - 1];
+      if (point.start) continue;
+      const fade = Math.max(0, 1 - (time - before.time) / duration);
       ctx.beginPath();
-      if (p.star) {
-        for (let i = 0; i < 8; i++) {
-          const a = (i * Math.PI) / 4,
-            radius = i % 2 ? size * 0.4 : size * 2.4;
-          const x = Math.cos(a) * radius,
-            y = Math.sin(a) * radius;
-          if (i === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.closePath();
-      } else ctx.arc(0, 0, size, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
+      ctx.moveTo(before.x, before.y);
+      ctx.lineTo(point.x, point.y);
+      ctx.globalAlpha = fade * 0.07;
+      ctx.lineWidth = 7;
+      ctx.stroke();
+      ctx.globalAlpha = fade * 0.65;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
     }
-    ctx.globalCompositeOperation = 'source-over';
-    if (particles.length) frame = requestAnimationFrame(draw);
-    else lastTime = 0;
+    ctx.globalAlpha = 1;
+    if (points.length) frame = requestAnimationFrame(draw);
+    else previous = null;
   }
   hero.addEventListener(
     'pointermove',
-    (e) => {
-      if (!enabled() || !fine.matches || e.pointerType === 'touch') return;
+    (event) => {
+      if (!enabled() || event.pointerType === 'touch') return;
       const now = performance.now();
-      if (now - lastEmit < 32) return;
-      lastEmit = now;
+      if (previous && now - previous.time < 16) return;
       const rect = hero.getBoundingClientRect();
-      const point = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-      const distance = previous ? Math.hypot(point.x - previous.x, point.y - previous.y) : 0;
-      if (previous && distance < 3) return;
-      const start = previous || point,
-        count = Math.min(5, Math.max(2, Math.ceil(distance / 10)));
-      for (let i = 1; i <= count; i++) {
-        const t = i / count;
-        emit(
-          start.x + (point.x - start.x) * t + (Math.random() - 0.5) * 9,
-          start.y + (point.y - start.y) * t + (Math.random() - 0.5) * 9
-        );
-      }
+      const point = {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
+        time: now,
+        start: !previous,
+      };
+      if (previous && Math.hypot(point.x - previous.x, point.y - previous.y) < 2) return;
+      points.push(point);
       previous = point;
-      if (particles.length > 48) particles.splice(0, particles.length - 48);
+      if (points.length > 32) points.shift();
       if (!frame) frame = requestAnimationFrame(draw);
     },
     { passive: true }
@@ -435,24 +398,10 @@ renderEvents();
   hero.addEventListener('pointerleave', () => {
     previous = null;
   });
-  hero.addEventListener(
-    'pointerup',
-    (event) => {
-      if (!enabled() || event.pointerType !== 'touch' || event.target.closest('a, button')) return;
-      const rect = hero.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      for (let i = 0; i < 12; i++)
-        emit(x + (Math.random() - 0.5) * 16, y + (Math.random() - 0.5) * 16);
-      if (particles.length > 48) particles.splice(0, particles.length - 48);
-      if (!frame) frame = requestAnimationFrame(draw);
-    },
-    { passive: true }
-  );
   hero.addEventListener('pointercancel', clear);
   document.addEventListener('visibilitychange', clear);
-  reduced.addEventListener('change', clear);
-  fine.addEventListener('change', clear);
+  reduced.addEventListener('change', resize);
+  fine.addEventListener('change', resize);
   if ('ResizeObserver' in window) new ResizeObserver(resize).observe(hero);
   else window.addEventListener('resize', resize, { passive: true });
   if ('IntersectionObserver' in window)

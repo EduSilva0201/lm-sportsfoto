@@ -1031,7 +1031,7 @@ form select:focus {
   }
 }
 
-/* Partículas verdes na hero, abaixo da interface. */
+/* Rastro de luz na hero, abaixo da interface. */
 .hero {
   isolation: isolate;
 }
@@ -1042,7 +1042,7 @@ form select:focus {
 .hero > .shade {
   z-index: 1;
 }
-.hero > .magic-trail {
+.hero > .light-trail {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -1054,8 +1054,8 @@ form select:focus {
 .hero > .hero-foot {
   z-index: 3;
 }
-@media (prefers-reduced-motion: reduce) {
-  .magic-trail {
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .light-trail {
     display: none;
   }
 }
