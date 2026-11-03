@@ -28,7 +28,7 @@ const sectionDefinitions = {
   testimonials: {
     title: 'Depoimentos',
     description:
-      'Cadastre somente depoimentos reais autorizados. Mantenha a seção oculta enquanto não houver depoimentos.',
+      'Os nomes e textos preenchidos são exemplos fictícios para orientar o cadastro. Substitua-os por depoimentos reais autorizados antes de exibir a seção no site.',
   },
   contact: {
     title: 'Contato / WhatsApp',

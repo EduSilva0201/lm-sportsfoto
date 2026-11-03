@@ -249,7 +249,7 @@
     "label": "Depoimento 1 · nome",
     "selector": "#testimonial-name-1",
     "kind": "text",
-    "value": "",
+    "value": "Marina A.",
     "max": 120,
     "optional": true
   },
@@ -258,7 +258,7 @@
     "label": "Depoimento 1 · contexto",
     "selector": "#testimonial-role-1",
     "kind": "text",
-    "value": "",
+    "value": "Corrida de rua",
     "max": 120,
     "optional": true
   },
@@ -267,7 +267,7 @@
     "label": "Depoimento 1 · texto",
     "selector": "#testimonial-quote-1",
     "kind": "text",
-    "value": "",
+    "value": "Cruzar a chegada já foi especial. Ter uma foto que traduz aquela emoção fez o momento durar muito mais.",
     "max": 1000,
     "optional": true
   },
@@ -287,7 +287,7 @@
     "label": "Depoimento 2 · nome",
     "selector": "#testimonial-name-2",
     "kind": "text",
-    "value": "",
+    "value": "Rafael M.",
     "max": 120,
     "optional": true
   },
@@ -296,7 +296,7 @@
     "label": "Depoimento 2 · contexto",
     "selector": "#testimonial-role-2",
     "kind": "text",
-    "value": "",
+    "value": "Futebol amador",
     "max": 120,
     "optional": true
   },
@@ -305,7 +305,7 @@
     "label": "Depoimento 2 · texto",
     "selector": "#testimonial-quote-2",
     "kind": "text",
-    "value": "",
+    "value": "As fotos mostram a intensidade da partida e aqueles detalhes que a gente nem percebe dentro de campo.",
     "max": 1000,
     "optional": true
   },
@@ -325,7 +325,7 @@
     "label": "Depoimento 3 · nome",
     "selector": "#testimonial-name-3",
     "kind": "text",
-    "value": "",
+    "value": "Camila S.",
     "max": 120,
     "optional": true
   },
@@ -334,7 +334,7 @@
     "label": "Depoimento 3 · contexto",
     "selector": "#testimonial-role-3",
     "kind": "text",
-    "value": "",
+    "value": "Ensaio de atleta",
     "max": 120,
     "optional": true
   },
@@ -343,7 +343,7 @@
     "label": "Depoimento 3 · texto",
     "selector": "#testimonial-quote-3",
     "kind": "text",
-    "value": "",
+    "value": "Gostei do cuidado com a luz e da naturalidade das imagens. Me reconheci em cada registro do treino.",
     "max": 1000,
     "optional": true
   },
@@ -363,7 +363,7 @@
     "label": "Depoimento 4 · nome",
     "selector": "#testimonial-name-4",
     "kind": "text",
-    "value": "",
+    "value": "Bruno L.",
     "max": 120,
     "optional": true
   },
@@ -372,7 +372,7 @@
     "label": "Depoimento 4 · contexto",
     "selector": "#testimonial-role-4",
     "kind": "text",
-    "value": "",
+    "value": "Cobertura de evento",
     "max": 120,
     "optional": true
   },
@@ -381,7 +381,7 @@
     "label": "Depoimento 4 · texto",
     "selector": "#testimonial-quote-4",
     "kind": "text",
-    "value": "",
+    "value": "Foi muito bom rever os momentos da prova. As imagens contam a história do dia, do aquecimento à conquista.",
     "max": 1000,
     "optional": true
   },
@@ -401,7 +401,7 @@
     "label": "Depoimento 5 · nome",
     "selector": "#testimonial-name-5",
     "kind": "text",
-    "value": "",
+    "value": "Juliana P.",
     "max": 120,
     "optional": true
   },
@@ -410,7 +410,7 @@
     "label": "Depoimento 5 · contexto",
     "selector": "#testimonial-role-5",
     "kind": "text",
-    "value": "",
+    "value": "Esporte em equipe",
     "max": 120,
     "optional": true
   },
@@ -419,7 +419,7 @@
     "label": "Depoimento 5 · texto",
     "selector": "#testimonial-quote-5",
     "kind": "text",
-    "value": "",
+    "value": "Nossa equipe ganhou uma lembrança muito bonita. As fotos registraram a energia e a união do grupo.",
     "max": 1000,
     "optional": true
   },
@@ -439,7 +439,7 @@
     "label": "Depoimento 6 · nome",
     "selector": "#testimonial-name-6",
     "kind": "text",
-    "value": "",
+    "value": "Diego R.",
     "max": 120,
     "optional": true
   },
@@ -448,7 +448,7 @@
     "label": "Depoimento 6 · contexto",
     "selector": "#testimonial-role-6",
     "kind": "text",
-    "value": "",
+    "value": "Competição esportiva",
     "max": 120,
     "optional": true
   },
@@ -457,7 +457,7 @@
     "label": "Depoimento 6 · texto",
     "selector": "#testimonial-quote-6",
     "kind": "text",
-    "value": "",
+    "value": "A comemoração passou em segundos, mas o registro ficou. É uma lembrança que eu teria orgulho de guardar.",
     "max": 1000,
     "optional": true
   },
