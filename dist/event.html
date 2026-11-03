@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{{name}} | LM SportsFoto</title>
+    <meta name="description" content="{{description}}" />
+    <meta name="theme-color" content="#101211" />
+    <link rel="icon" href="/assets/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/event.js" defer></script>
+  </head>
+  <body class="event-page">
+    <a class="skip-link" href="#event-content">Pular para o conteúdo</a>
+    <header>
+      <a class="brand" href="/"
+        ><img src="/assets/logo-lm-sportsfoto.svg" width="154" height="80" alt="LM SportsFoto" /></a
+      ><a class="event-back" href="/#eventos">← Todos os eventos</a>
+    </header>
+    <main id="event-content" class="section event-detail">
+      <div class="event-detail-photo">
+        <img src="{{image}}" alt="Capa de {{name}}" fetchpriority="high" />
+      </div>
+      <div class="event-detail-copy">
+        <p class="eyebrow">{{type}} / {{photoType}}</p>
+        <h1>{{name}}</h1>
+        <p class="event-date">{{date}} · {{place}}</p>
+        <p class="event-description">{{description}}</p>
+        <p class="event-purchase-note">
+          A escolha, o pagamento e a entrega das fotos acontecem na plataforma externa.
+        </p>
+        <a
+          class="button accent-button event-purchase"
+          href="{{albumUrl}}"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Ver fotos em {{platform}} ↗</a
+        >
+        <div class="event-share">
+          <button class="button outline-button" id="share-event">Compartilhar evento ↗</button
+          ><button class="button outline-button" id="copy-event">Copiar link</button
+          ><a
+            id="share-whatsapp"
+            href="https://wa.me/?text={{pageUrl}}"
+            target="_blank"
+            rel="noopener noreferrer"
+            >WhatsApp ↗</a
+          >
+        </div>
+        <p id="share-status" role="status" aria-live="polite"></p>
+        <label id="share-fallback" hidden>Copie o link<input id="share-link" readonly /></label
+        ><a class="text-link" href="/#orcamento">Quer uma cobertura para seu evento? ↗</a>
+      </div>
+    </main>
+    <footer>
+      <span>LM SportsFoto · Lucas Martins</span><a href="/#eventos">Encontrar outro evento ↗</a>
+    </footer>
+  </body>
+</html>

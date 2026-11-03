@@ -11,9 +11,9 @@ Projeto de site de fotografia esportiva, em desenvolvimento, para revisão de la
 - `dist/assets`: logo, favicon e versões otimizadas das fotografias de Lucas Martins. Os arquivos antigos de demonstração não são usados na interface atual.
 
 ## Estado atual
-O backend local possui login administrativo, banco SQLite persistente, cadastro/edição/exclusão de eventos, rascunhos, publicação e upload de capas. O catálogo consome a API quando executado pelo servidor local. O backend ainda não foi publicado na Cloudflare.
+O backend local possui login administrativo, banco SQLite persistente, cadastro/edição/exclusão de eventos, rascunhos, publicação e upload de capas. O catálogo consome a API quando executado pelo servidor local. A versão Cloudflare (Workers, D1 e R2) está implementada separadamente, mas ainda não foi publicada nem configurada em uma conta real.
 
-A hospedagem estática mantém os eventos demonstrativos. A loja e o carrinho avisam que a venda direta está em desenvolvimento. Não há cobrança, entrega de fotos nem envio de orçamento. As fotos do catálogo são de Lucas Martins; a capa provisória tem crédito abaixo.
+A hospedagem estática mantém os eventos demonstrativos. A loja e o carrinho avisam que a venda direta está em desenvolvimento. Não há cobrança ou entrega de fotos pelo site. O orçamento é preparado no navegador e enviado pelo visitante via WhatsApp, após configurar o número no painel. As fotos do catálogo são de Lucas Martins; a capa provisória tem crédito abaixo.
 
 ## Rodar o projeto completo
 Requer Node.js 24. Na raiz do projeto:
@@ -29,8 +29,8 @@ Dados e credenciais ficam em `.local/`, ignorada pelo Git. Não inclua essa past
 
 ## Próximas implementações
 1. Confirmar nomes, datas e links reais dos eventos e aprovar o painel com o Lucas.
-2. Adaptar o servidor local para Workers, D1 e R2 e configurar autenticação para produção.
-3. Gestão do portfólio, fotos da loja, prévias com marca-d’água e orçamento.
+2. Configurar domínio, D1, R2 e Cloudflare Access seguindo cloudflare/README.md, após revisar as imagens.
+3. Validar o domínio publicado em aparelho real e substituir ou ocultar depoimentos demonstrativos.
 4. Depois da primeira versão: integração Asaas, pedidos e entrega autorizada.
 
 ## Créditos das imagens demonstrativas
@@ -52,3 +52,15 @@ Preto #101211 e verde-lima #D3F56B. Logo em SVG e favicon em dist/assets, adapta
 A hero utiliza um recorte horizontal da fotografia de corrida de rua em Brasília publicada por basquetebol br no Pexels: https://www.pexels.com/photo/man-among-people-in-race-on-street-20037838/
 Fonte original: 2667 x 4000 pixels. Versão para a hero: 2200 x 1232, WebP qualidade 90, sem desfoque ou ampliação do original.
 Licença: https://www.pexels.com/license/ (consultada em 30/10/2026). Crédito exibido na hero. Esta foto não faz parte do acervo vendido pelo Lucas; a capa será substituída por fotografia própria.
+
+O painel também permite editar os textos da hero, a biografia e as imagens do site (incluindo retrato opcional). Salve em “Conteúdo do site” e atualize a página pública. Essas alterações ficam no banco local; não modificam a prévia estática hospedada.
+
+## Formatação no VS Code
+
+Use a extensão recomendada **Prettier - Code formatter** (esbenp.prettier-vscode). Os arquivos HTML, CSS, JavaScript e JSON serão formatados ao salvar, com dois espaços de indentação. Para formatar pelo terminal, execute `npm.cmd run format`. Para conferir o padrão, execute `npm.cmd run format:check`. A pasta `.local` e as imagens não entram na formatação.
+
+## Preparação para publicação e testes de celular
+
+Foram adicionados galeria ampliável, páginas individuais de eventos, compartilhamento, filtros por local/período, perguntas frequentes e contato por WhatsApp. No painel, Contato / WhatsApp, Perguntas frequentes e Busca e links têm seus próprios menus. Visualizar antes de salvar abre uma prévia da seção sem gravar alterações. Em Depoimentos, escolha demonstração, reais ou ocultar a seção.
+
+Veja [como testar emulando um celular](docs/TESTE-CELULAR.md) e o [guia de publicação na Cloudflare](cloudflare/README.md). Execute npm.cmd run test:mobile para gerar capturas em artifacts/mobile. O modo Preparação mantém as páginas fora da indexação; altere para Publicado no painel somente quando o conteúdo estiver pronto. A escolha e otimização das imagens continuam pendentes.

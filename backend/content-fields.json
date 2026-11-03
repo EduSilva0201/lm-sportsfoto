@@ -1,0 +1,600 @@
+[
+  {
+    "key": "heroEyebrow",
+    "label": "Hero · apresentação",
+    "selector": ".hero-copy .eyebrow",
+    "kind": "text",
+    "value": "LUCAS MARTINS · FOTOGRAFIA ESPORTIVA",
+    "max": 120
+  },
+  {
+    "key": "heroTitle",
+    "label": "Hero · título (use Enter para quebrar linhas)",
+    "selector": "#hero-title",
+    "kind": "text",
+    "value": "Você vive\no momento.",
+    "max": 180
+  },
+  {
+    "key": "heroEmphasis",
+    "label": "Hero · destaque",
+    "selector": ".hero h1 em",
+    "kind": "text",
+    "value": "A gente eterniza.",
+    "max": 120
+  },
+  {
+    "key": "heroDescription",
+    "label": "Hero · descrição",
+    "selector": ".hero-copy > p:not(.eyebrow)",
+    "kind": "text",
+    "value": "Cada conquista tem uma história.\nEncontre o registro da sua.",
+    "max": 500
+  },
+  {
+    "key": "heroButton",
+    "label": "Hero · botão",
+    "selector": "#hero-button",
+    "kind": "text",
+    "value": "Encontre suas fotos",
+    "max": 80
+  },
+  {
+    "key": "heroCredit",
+    "label": "Hero · crédito da foto",
+    "selector": ".hero-credit",
+    "kind": "text",
+    "value": "BRASÍLIA · CAPA PROVISÓRIA / PEXELS ↗",
+    "max": 200
+  },
+  {
+    "key": "heroCreditUrl",
+    "label": "Hero · link do crédito (HTTPS, opcional)",
+    "selector": ".hero-credit",
+    "kind": "url",
+    "value": "https://www.pexels.com/photo/man-among-people-in-race-on-street-20037838/",
+    "max": 2048
+  },
+  {
+    "key": "bioName",
+    "label": "Biografia · nome",
+    "selector": "#bio-name",
+    "kind": "text",
+    "value": "Lucas Martins",
+    "max": 120
+  },
+  {
+    "key": "bioIntro",
+    "label": "Biografia · apresentação",
+    "selector": "#bio-intro",
+    "kind": "text",
+    "value": "Capturando performance, emoção e movimento.",
+    "max": 500
+  },
+  {
+    "key": "biography",
+    "label": "Biografia · história do Lucas",
+    "selector": "#biography",
+    "kind": "text",
+    "value": "Este espaço receberá a história do Lucas, sua trajetória na fotografia e um retrato pessoal. Estamos preparando cada detalhe com a identidade dele.",
+    "max": 5000
+  },
+  {
+    "key": "logo",
+    "label": "Logotipo · cabeçalho e rodapé",
+    "selector": ".brand img",
+    "kind": "image",
+    "value": {
+      "src": "/assets/logo-lm-sportsfoto.svg",
+      "alt": "LM SportsFoto",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "favicon",
+    "label": "Ícone da aba do navegador",
+    "selector": "link[rel=\"icon\"]",
+    "kind": "image",
+    "value": {
+      "src": "/assets/favicon.svg",
+      "alt": "Ícone LM SportsFoto",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "hero",
+    "label": "Hero · foto principal",
+    "selector": "#hero-main-image",
+    "kind": "image",
+    "value": {
+      "src": "/assets/hero-brasilia.svg",
+      "alt": "Corredores em prova de rua em Brasília, fotografia provisória de basquetebol br no Pexels",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "manifesto",
+    "label": "Portfólio · foto de destaque",
+    "selector": ".manifesto-photo img",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-7215.svg",
+      "alt": "Disputa de bola em uma partida, fotografia de Lucas Martins",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "portrait",
+    "label": "Biografia · retrato (opcional)",
+    "selector": "#bio-portrait",
+    "kind": "image",
+    "value": {
+      "src": "",
+      "alt": "Retrato de Lucas Martins",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "portfolio0",
+    "label": "Portfólio · foto 1",
+    "selector": ".portfolio-grid figure:nth-child(1) img",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-9433.svg",
+      "alt": "Atleta correndo entre árvores, fotografia de Lucas Martins",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "shop0",
+    "label": "Loja · foto 1",
+    "selector": ".shop-photo:nth-child(1) img",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-9433.svg",
+      "alt": "Atleta correndo entre árvores, fotografia de Lucas Martins",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "portfolio1",
+    "label": "Portfólio · foto 2",
+    "selector": ".portfolio-grid figure:nth-child(2) img",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-2024.svg",
+      "alt": "Jogador em ação com a bola, fotografia de Lucas Martins",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "shop1",
+    "label": "Loja · foto 2",
+    "selector": ".shop-photo:nth-child(2) img",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-2024.svg",
+      "alt": "Jogador em ação com a bola, fotografia de Lucas Martins",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "portfolio2",
+    "label": "Portfólio · foto 3",
+    "selector": ".portfolio-grid figure:nth-child(3) img",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-6759.svg",
+      "alt": "Atletas comemorando juntas, fotografia de Lucas Martins",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "shop2",
+    "label": "Loja · foto 3",
+    "selector": ".shop-photo:nth-child(3) img",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-6759.svg",
+      "alt": "Atletas comemorando juntas, fotografia de Lucas Martins",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "portfolio3",
+    "label": "Portfólio · foto 4",
+    "selector": ".portfolio-grid figure:nth-child(4) img",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-2091.svg",
+      "alt": "Goleiro com troféu erguido, fotografia de Lucas Martins",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "shop3",
+    "label": "Loja · foto 4",
+    "selector": ".shop-photo:nth-child(4) img",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-2091.svg",
+      "alt": "Goleiro com troféu erguido, fotografia de Lucas Martins",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "heroSlide2",
+    "label": "Hero · segunda foto",
+    "selector": "#hero-slide-2",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-7277.svg",
+      "alt": "Futebol em movimento, fotografia de Lucas Martins",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "heroSlide3",
+    "label": "Hero · terceira foto",
+    "selector": "#hero-slide-3",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-9433.svg",
+      "alt": "Atleta em corrida, fotografia de Lucas Martins",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "testimonialName1",
+    "label": "Depoimento 1 · nome",
+    "selector": "#testimonial-name-1",
+    "kind": "text",
+    "value": "Marina A.",
+    "max": 120
+  },
+  {
+    "key": "testimonialRole1",
+    "label": "Depoimento 1 · contexto",
+    "selector": "#testimonial-role-1",
+    "kind": "text",
+    "value": "Corrida de rua",
+    "max": 120
+  },
+  {
+    "key": "testimonialQuote1",
+    "label": "Depoimento 1 · texto",
+    "selector": "#testimonial-quote-1",
+    "kind": "text",
+    "value": "Cruzar a chegada já foi especial. Ter uma foto que traduz aquela emoção fez o momento durar muito mais.",
+    "max": 1000
+  },
+  {
+    "key": "testimonialImage1",
+    "label": "Depoimento 1 · imagem ilustrativa",
+    "selector": "#testimonial-image-1",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-0392.svg",
+      "alt": "Imagem esportiva ilustrativa; não representa a pessoa citada",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "testimonialName2",
+    "label": "Depoimento 2 · nome",
+    "selector": "#testimonial-name-2",
+    "kind": "text",
+    "value": "Rafael M.",
+    "max": 120
+  },
+  {
+    "key": "testimonialRole2",
+    "label": "Depoimento 2 · contexto",
+    "selector": "#testimonial-role-2",
+    "kind": "text",
+    "value": "Futebol amador",
+    "max": 120
+  },
+  {
+    "key": "testimonialQuote2",
+    "label": "Depoimento 2 · texto",
+    "selector": "#testimonial-quote-2",
+    "kind": "text",
+    "value": "As fotos mostram a intensidade da partida e aqueles detalhes que a gente nem percebe dentro de campo.",
+    "max": 1000
+  },
+  {
+    "key": "testimonialImage2",
+    "label": "Depoimento 2 · imagem ilustrativa",
+    "selector": "#testimonial-image-2",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-2024.svg",
+      "alt": "Imagem esportiva ilustrativa; não representa a pessoa citada",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "testimonialName3",
+    "label": "Depoimento 3 · nome",
+    "selector": "#testimonial-name-3",
+    "kind": "text",
+    "value": "Camila S.",
+    "max": 120
+  },
+  {
+    "key": "testimonialRole3",
+    "label": "Depoimento 3 · contexto",
+    "selector": "#testimonial-role-3",
+    "kind": "text",
+    "value": "Ensaio de atleta",
+    "max": 120
+  },
+  {
+    "key": "testimonialQuote3",
+    "label": "Depoimento 3 · texto",
+    "selector": "#testimonial-quote-3",
+    "kind": "text",
+    "value": "Gostei do cuidado com a luz e da naturalidade das imagens. Me reconheci em cada registro do treino.",
+    "max": 1000
+  },
+  {
+    "key": "testimonialImage3",
+    "label": "Depoimento 3 · imagem ilustrativa",
+    "selector": "#testimonial-image-3",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-1584.svg",
+      "alt": "Imagem esportiva ilustrativa; não representa a pessoa citada",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "testimonialName4",
+    "label": "Depoimento 4 · nome",
+    "selector": "#testimonial-name-4",
+    "kind": "text",
+    "value": "Bruno L.",
+    "max": 120
+  },
+  {
+    "key": "testimonialRole4",
+    "label": "Depoimento 4 · contexto",
+    "selector": "#testimonial-role-4",
+    "kind": "text",
+    "value": "Cobertura de evento",
+    "max": 120
+  },
+  {
+    "key": "testimonialQuote4",
+    "label": "Depoimento 4 · texto",
+    "selector": "#testimonial-quote-4",
+    "kind": "text",
+    "value": "Foi muito bom rever os momentos da prova. As imagens contam a história do dia, do aquecimento à conquista.",
+    "max": 1000
+  },
+  {
+    "key": "testimonialImage4",
+    "label": "Depoimento 4 · imagem ilustrativa",
+    "selector": "#testimonial-image-4",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-9433.svg",
+      "alt": "Imagem esportiva ilustrativa; não representa a pessoa citada",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "testimonialName5",
+    "label": "Depoimento 5 · nome",
+    "selector": "#testimonial-name-5",
+    "kind": "text",
+    "value": "Juliana P.",
+    "max": 120
+  },
+  {
+    "key": "testimonialRole5",
+    "label": "Depoimento 5 · contexto",
+    "selector": "#testimonial-role-5",
+    "kind": "text",
+    "value": "Esporte em equipe",
+    "max": 120
+  },
+  {
+    "key": "testimonialQuote5",
+    "label": "Depoimento 5 · texto",
+    "selector": "#testimonial-quote-5",
+    "kind": "text",
+    "value": "Nossa equipe ganhou uma lembrança muito bonita. As fotos registraram a energia e a união do grupo.",
+    "max": 1000
+  },
+  {
+    "key": "testimonialImage5",
+    "label": "Depoimento 5 · imagem ilustrativa",
+    "selector": "#testimonial-image-5",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-6759.svg",
+      "alt": "Imagem esportiva ilustrativa; não representa a pessoa citada",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "testimonialName6",
+    "label": "Depoimento 6 · nome",
+    "selector": "#testimonial-name-6",
+    "kind": "text",
+    "value": "Diego R.",
+    "max": 120
+  },
+  {
+    "key": "testimonialRole6",
+    "label": "Depoimento 6 · contexto",
+    "selector": "#testimonial-role-6",
+    "kind": "text",
+    "value": "Competição esportiva",
+    "max": 120
+  },
+  {
+    "key": "testimonialQuote6",
+    "label": "Depoimento 6 · texto",
+    "selector": "#testimonial-quote-6",
+    "kind": "text",
+    "value": "A comemoração passou em segundos, mas o registro ficou. É uma lembrança que eu teria orgulho de guardar.",
+    "max": 1000
+  },
+  {
+    "key": "testimonialImage6",
+    "label": "Depoimento 6 · imagem ilustrativa",
+    "selector": "#testimonial-image-6",
+    "kind": "image",
+    "value": {
+      "src": "/assets/lucas-2091.svg",
+      "alt": "Imagem esportiva ilustrativa; não representa a pessoa citada",
+      "position": "50% 50%"
+    }
+  },
+  {
+    "key": "contactWhatsApp",
+    "label": "WhatsApp · código do país + DDD + número (somente números)",
+    "selector": "#contact-whatsapp",
+    "kind": "phone",
+    "value": "",
+    "max": 15,
+    "optional": true
+  },
+  {
+    "key": "seoTitle",
+    "label": "Título para buscas e compartilhamento",
+    "selector": "title",
+    "kind": "text",
+    "value": "LM SportsFoto | Fotografia esportiva por Lucas Martins",
+    "max": 100
+  },
+  {
+    "key": "seoDescription",
+    "label": "Descrição para buscas e compartilhamento",
+    "selector": "meta[name=\"description\"]",
+    "kind": "text",
+    "value": "Encontre suas fotos de corrida, futebol e outras modalidades. Conheça o olhar de Lucas Martins e solicite uma cobertura esportiva.",
+    "max": 300
+  },
+  {
+    "key": "testimonialsMode",
+    "label": "Exibição dos depoimentos",
+    "selector": "#depoimentos",
+    "kind": "choice",
+    "value": "demo",
+    "options": [
+      {
+        "value": "demo",
+        "label": "Demonstração (nomes e textos fictícios)"
+      },
+      {
+        "value": "real",
+        "label": "Reais (substitua por depoimentos autorizados)"
+      },
+      {
+        "value": "hidden",
+        "label": "Ocultar seção"
+      }
+    ]
+  },
+  {
+    "key": "faqQuestion1",
+    "label": "Pergunta 1",
+    "selector": "#faq-question-1",
+    "kind": "text",
+    "value": "Onde compro as fotos dos eventos?",
+    "max": 180
+  },
+  {
+    "key": "faqAnswer1",
+    "label": "Resposta 1",
+    "selector": "#faq-answer-1",
+    "kind": "text",
+    "value": "Encontre seu evento no catálogo, abra os detalhes e toque no botão da plataforma indicada. A compra acontece no site externo.",
+    "max": 1500
+  },
+  {
+    "key": "faqQuestion2",
+    "label": "Pergunta 2",
+    "selector": "#faq-question-2",
+    "kind": "text",
+    "value": "Como recebo minhas fotos?",
+    "max": 180
+  },
+  {
+    "key": "faqAnswer2",
+    "label": "Resposta 2",
+    "selector": "#faq-answer-2",
+    "kind": "text",
+    "value": "O pagamento e a entrega são realizados pela plataforma do álbum. Confira os prazos e as orientações informados por ela.",
+    "max": 1500
+  },
+  {
+    "key": "faqQuestion3",
+    "label": "Pergunta 3",
+    "selector": "#faq-question-3",
+    "kind": "text",
+    "value": "Não encontrei meu evento. O que posso fazer?",
+    "max": 180
+  },
+  {
+    "key": "faqAnswer3",
+    "label": "Resposta 3",
+    "selector": "#faq-answer-3",
+    "kind": "text",
+    "value": "Tente buscar pelo nome, cidade ou período. Se ainda não encontrar, fale com o Lucas pelo contato disponível nesta página.",
+    "max": 1500
+  },
+  {
+    "key": "faqQuestion4",
+    "label": "Pergunta 4",
+    "selector": "#faq-question-4",
+    "kind": "text",
+    "value": "Como contrato uma cobertura esportiva?",
+    "max": 180
+  },
+  {
+    "key": "faqAnswer4",
+    "label": "Resposta 4",
+    "selector": "#faq-answer-4",
+    "kind": "text",
+    "value": "Preencha o formulário com a modalidade, o local e a data prevista. Você poderá revisar a mensagem no WhatsApp antes de enviá-la.",
+    "max": 1500
+  },
+  {
+    "key": "faqQuestion5",
+    "label": "Pergunta 5",
+    "selector": "#faq-question-5",
+    "kind": "text",
+    "value": "Já posso comprar diretamente na loja LM?",
+    "max": 180
+  },
+  {
+    "key": "faqAnswer5",
+    "label": "Resposta 5",
+    "selector": "#faq-answer-5",
+    "kind": "text",
+    "value": "A loja própria ainda está em desenvolvimento. Por enquanto, use os álbuns dos eventos para comprar nas plataformas indicadas.",
+    "max": 1500
+  },
+  {
+    "key": "siteStage",
+    "label": "Modo do site",
+    "selector": ".devbar",
+    "kind": "choice",
+    "value": "preview",
+    "options": [
+      {
+        "value": "preview",
+        "label": "Preparação (aviso de desenvolvimento e fora das buscas)"
+      },
+      {
+        "value": "live",
+        "label": "Publicado (sem faixa de desenvolvimento)"
+      }
+    ]
+  }
+]

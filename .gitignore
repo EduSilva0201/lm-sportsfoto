@@ -8,3 +8,11 @@ node_modules/
 .wrangler/
 .DS_Store
 *.log
+
+.cloudflare-build/
+.cloudflare-import/
+test-results/
+playwright-report/
+artifacts/
+.cloudflare-worker-check/
+.backups/

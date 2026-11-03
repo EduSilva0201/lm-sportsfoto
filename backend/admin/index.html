@@ -1,8 +1,243 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Painel | LM SportsFoto</title><link rel="stylesheet" href="/admin/admin.css"><script src="/admin/admin.js" defer></script></head><body>
-<header><img src="/assets/logo-lm-sportsfoto.svg" alt="LM SportsFoto"><span>Painel de eventos · versão local</span><a href="/" target="_blank" rel="noopener">Ver site ↗</a><button id="logout" hidden>Sair</button></header>
-<main><p class="eyebrow">SEU TRABALHO EM MOVIMENTO</p><h1>Gerencie seus eventos.</h1><p class="intro">Organize os álbuns e indique onde cada cliente pode comprar suas fotos.</p><p id="message" role="status" aria-live="polite"></p>
-<section id="login-panel"><h2>Entrar no painel</h2><p>Use o acesso criado com <code>npm run admin:setup</code> no seu computador.</p><form id="login"><label>E-mail<input type="email" name="email" autocomplete="username" required maxlength="254"></label><label>Senha<input type="password" name="password" autocomplete="current-password" required maxlength="128"></label><button class="primary">Entrar</button></form></section>
-<div id="workspace" hidden><div class="workspace-top"><div><h2>Catálogo de eventos</h2><p>Rascunhos ficam visíveis apenas neste painel.</p></div><button id="new" class="primary">+ Novo evento</button></div>
-<div class="layout"><section><h2 id="editor-title">Novo evento</h2><form id="editor"><input name="id" type="hidden"><label>Nome do evento<input name="name" required maxlength="120" placeholder="Ex.: Corrida no Parque da Cidade"></label><div class="pair"><label>Data<input name="date" type="date" required></label><label>Modalidade<select name="type"><option>Corrida</option><option>Futebol</option></select></label></div><label>Local<input name="place" required maxlength="160" placeholder="Brasília · DF"></label><label>Plataforma de compra<select name="platform"><option>Foco Radical</option><option>Banlek</option><option>Outra plataforma</option></select></label><label>Link completo do álbum<input name="url" type="url" required maxlength="2048" placeholder="https://..."></label><label>Capa do evento<select name="image" id="cover"><option value="0392">Corrida · atleta de branco</option><option value="7277">Futebol · em movimento</option><option value="1584">Corrida · treino</option><option value="7215">Futebol · partida</option><option value="9433">Corrida · atleta de preto</option><option value="2091">Futebol · conquista</option><option value="6759">Futebol · equipe</option><option value="2024">Futebol · chute</option></select></label><img id="cover-preview" class="cover" src="/assets/lucas-0392.svg" alt="Prévia da capa selecionada"><label>Ou enviar uma capa própria<input id="upload" type="file" accept="image/jpeg,image/png,image/webp"></label><p class="hint">JPG, PNG ou WebP, até 5 MB. A capa será pública; envie uma prévia autorizada.</p><label>Visibilidade<select name="status"><option value="draft">Rascunho</option><option value="published">Publicado no site</option></select></label><div class="actions"><button class="primary" id="save">Salvar evento</button><button type="button" id="cancel">Limpar</button></div></form></section>
-<section><h2>Eventos cadastrados</h2><p id="list-status"></p><div id="event-list"></div></section></div></div>
-<dialog id="delete-dialog"><h2>Excluir este evento?</h2><p id="delete-name"></p><p>Ele também sairá do catálogo público. Essa ação não apaga o álbum na plataforma externa.</p><div class="actions"><button id="keep">Cancelar</button><button id="confirm-delete" class="danger">Excluir evento</button></div></dialog></main></body></html>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Painel | LM SportsFoto</title>
+    <link rel="stylesheet" href="/admin/admin.css" />
+    <script src="/admin/admin.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <img src="/assets/logo-lm-sportsfoto.svg" alt="LM SportsFoto" /><span
+        >Painel do site · versão local</span
+      ><a href="/" target="_blank" rel="noopener">Ver site ↗</a
+      ><button id="logout" hidden>Sair</button>
+    </header>
+    <main>
+      <p class="eyebrow">SEU TRABALHO EM MOVIMENTO</p>
+      <h1>Gerencie seu site.</h1>
+      <p class="intro">Atualize o conteúdo do site e organize seus álbuns de eventos.</p>
+      <p id="message" role="status" aria-live="polite"></p>
+      <section id="login-panel">
+        <h2>Entrar no painel</h2>
+        <p>Use o acesso criado com <code>npm run admin:setup</code> no seu computador.</p>
+        <form id="login">
+          <label
+            >E-mail<input
+              type="email"
+              name="email"
+              autocomplete="username"
+              required
+              maxlength="254" /></label
+          ><label
+            >Senha<input
+              type="password"
+              name="password"
+              autocomplete="current-password"
+              required
+              maxlength="128" /></label
+          ><button class="primary">Entrar</button>
+        </form>
+      </section>
+      <div id="workspace" hidden>
+        <aside class="admin-sidebar">
+          <p class="sidebar-label">GERENCIAR</p>
+          <nav class="admin-nav" aria-label="Seções do painel">
+            <a href="#events" data-section="events"><span>01</span>Eventos e álbuns</a>
+            <a href="#categories" data-section="categories"><span>02</span>Categorias</a>
+            <a href="#hero" data-section="hero"><span>03</span>Hero / início</a>
+            <a href="#biography" data-section="biography"><span>04</span>Biografia e foto</a>
+            <a href="#portfolio" data-section="portfolio"><span>05</span>Portfólio</a>
+            <a href="#shop" data-section="shop"><span>06</span>Imagens da loja</a>
+            <a href="#testimonials" data-section="testimonials"><span>07</span>Depoimentos</a>
+            <a href="#brand" data-section="brand"><span>08</span>Marca e ícone</a>
+            <a href="#contact" data-section="contact"><span>09</span>Contato / WhatsApp</a
+            ><a href="#faq" data-section="faq"><span>10</span>Perguntas frequentes</a
+            ><a href="#seo" data-section="seo"><span>11</span>Busca e links</a>
+          </nav>
+          <p class="sidebar-hint">
+            Escolha uma seção para editar. Salve as alterações antes de fechar o painel.
+          </p>
+        </aside>
+        <div class="admin-main">
+          <section id="categories-panel" data-admin-page="categories" hidden>
+            <h2>Categorias de álbuns e tipos de foto</h2>
+            <p>
+              Organize seus álbuns por categoria (Corrida, Ciclismo…) e por tipo de foto (Ação,
+              Retrato, Drone…). O tipo de foto é uma classificação opcional do álbum, sem cadastro
+              ou venda de fotos individuais.
+            </p>
+            <form id="category-create">
+              <div class="pair">
+                <label
+                  >Grupo<select name="kind">
+                    <option value="album">Categoria de álbum</option>
+                    <option value="photo">Tipo de foto</option>
+                  </select></label
+                ><label
+                  >Nome<input
+                    name="name"
+                    required
+                    maxlength="60"
+                    placeholder="Ex.: Ciclismo ou Retrato"
+                /></label>
+              </div>
+              <button class="primary">Cadastrar categoria</button>
+            </form>
+            <p id="category-status" role="status" aria-live="polite"></p>
+            <div id="category-list"></div>
+            <p class="hint">
+              Renomear atualiza também os eventos associados. Categorias em uso não podem ser
+              excluídas.
+            </p>
+          </section>
+          <section id="site-content" data-admin-page="content" hidden>
+            <p class="eyebrow">CONTEÚDO DO SITE</p>
+            <h2 id="content-heading" tabindex="-1">Hero / início</h2>
+            <p id="content-description"></p>
+            <p class="hint">
+              Imagens em JPG, PNG ou WebP, até 5 MB. As mudanças aparecem no site depois de salvar e
+              atualizar a página.
+            </p>
+            <form id="content-editor">
+              <div id="content-fields"></div>
+              <div class="content-actions">
+                <button class="primary" id="content-save" disabled>Salvar seção</button
+                ><button type="button" id="content-preview" disabled>
+                  Visualizar antes de salvar ↗</button
+                ><span id="section-save-hint">As alterações são salvas apenas nesta seção.</span>
+              </div>
+              <p id="content-status" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+          <div id="events-workspace" data-admin-page="events">
+            <div class="workspace-top">
+              <div>
+                <h2>Catálogo de eventos</h2>
+                <p>Rascunhos ficam visíveis apenas neste painel.</p>
+              </div>
+              <button id="new" class="primary">+ Novo evento</button>
+            </div>
+            <div class="layout">
+              <section>
+                <h2 id="editor-title">Novo evento</h2>
+                <form id="editor">
+                  <input name="id" type="hidden" /><label
+                    >Nome do evento<input
+                      name="name"
+                      required
+                      maxlength="120"
+                      placeholder="Ex.: Corrida no Parque da Cidade"
+                  /></label>
+                  <div class="pair">
+                    <label>Data<input name="date" type="date" required /></label
+                    ><label
+                      >Categoria do álbum<select name="type" required>
+                        <option>Corrida</option>
+                        <option>Futebol</option>
+                      </select></label
+                    >
+                  </div>
+                  <label
+                    >Tipo de foto (opcional)<select name="photo_type">
+                      <option value="">Não informado</option>
+                    </select></label
+                  ><label
+                    >Local<input
+                      name="place"
+                      required
+                      maxlength="160"
+                      placeholder="Brasília · DF" /></label
+                  ><label
+                    >Plataforma de compra<select name="platform">
+                      <option>Foco Radical</option>
+                      <option>Banlek</option>
+                      <option>Outra plataforma</option>
+                    </select></label
+                  ><label
+                    >Link completo do álbum<input
+                      name="url"
+                      type="url"
+                      required
+                      maxlength="2048"
+                      placeholder="https://..." /></label
+                  ><label
+                    >Capa do evento<select name="image" id="cover">
+                      <option value="0392">Corrida · atleta de branco</option>
+                      <option value="7277">Futebol · em movimento</option>
+                      <option value="1584">Corrida · treino</option>
+                      <option value="7215">Futebol · partida</option>
+                      <option value="9433">Corrida · atleta de preto</option>
+                      <option value="2091">Futebol · conquista</option>
+                      <option value="6759">Futebol · equipe</option>
+                      <option value="2024">Futebol · chute</option>
+                    </select></label
+                  ><img
+                    id="cover-preview"
+                    class="cover"
+                    src="/assets/lucas-0392.svg"
+                    alt="Prévia da capa selecionada"
+                  /><label
+                    >Ou enviar uma capa própria<input
+                      id="upload"
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                  /></label>
+                  <p class="hint">
+                    JPG, PNG ou WebP, até 5 MB. A capa será pública; envie uma prévia autorizada.
+                  </p>
+                  <label
+                    >Descrição do evento (opcional)<textarea
+                      name="description"
+                      maxlength="2000"
+                      rows="4"
+                      placeholder="Percurso, programação ou informações úteis para encontrar o álbum."
+                    ></textarea></label
+                  ><label
+                    >Visibilidade<select name="status">
+                      <option value="draft">Rascunho</option>
+                      <option value="published">Publicado no site</option>
+                    </select></label
+                  >
+                  <div class="actions">
+                    <button class="primary" id="save">Salvar evento</button
+                    ><button type="button" id="cancel">Limpar</button>
+                  </div>
+                </form>
+              </section>
+              <section>
+                <h2>Eventos cadastrados</h2>
+                <p id="list-status"></p>
+                <div id="event-list"></div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+      <dialog id="preview-dialog">
+        <div class="preview-toolbar">
+          <h2>Prévia do site</h2>
+          <button type="button" id="preview-close">Fechar prévia ×</button>
+        </div>
+        <p>Esta prévia mostra suas alterações sem publicá-las. Feche para continuar editando.</p>
+        <iframe
+          id="preview-frame"
+          title="Prévia das alterações do site"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </dialog>
+      <dialog id="delete-dialog">
+        <h2>Excluir este evento?</h2>
+        <p id="delete-name"></p>
+        <p>
+          Ele também sairá do catálogo público. Essa ação não apaga o álbum na plataforma externa.
+        </p>
+        <div class="actions">
+          <button id="keep">Cancelar</button
+          ><button id="confirm-delete" class="danger">Excluir evento</button>
+        </div>
+      </dialog>
+    </main>
+  </body>
+</html>
