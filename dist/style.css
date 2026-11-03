@@ -1054,7 +1054,7 @@ form select:focus {
 .hero > .hero-foot {
   z-index: 3;
 }
-@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce) {
   .magic-trail {
     display: none;
   }

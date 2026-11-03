@@ -309,7 +309,7 @@ renderEvents();
 // Rastro de varinha mágica: canvas decorativo, sem interceptar cliques.
 (() => {
   const hero = document.querySelector('.hero');
-  if (!hero || hero.classList.contains('hero-gallery')) return;
+  if (!hero) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
   const canvas = document.createElement('canvas');
@@ -328,7 +328,7 @@ renderEvents();
   let width = 0,
     height = 0,
     lastEmit = 0;
-  const enabled = () => !reduced.matches && fine.matches && !document.hidden;
+  const enabled = () => !reduced.matches && !document.hidden;
   function resize() {
     width = hero.clientWidth;
     height = hero.clientHeight;
@@ -409,7 +409,7 @@ renderEvents();
   hero.addEventListener(
     'pointermove',
     (e) => {
-      if (!enabled() || e.pointerType === 'touch') return;
+      if (!enabled() || !fine.matches || e.pointerType === 'touch') return;
       const now = performance.now();
       if (now - lastEmit < 32) return;
       lastEmit = now;
@@ -435,6 +435,20 @@ renderEvents();
   hero.addEventListener('pointerleave', () => {
     previous = null;
   });
+  hero.addEventListener(
+    'pointerup',
+    (event) => {
+      if (!enabled() || event.pointerType !== 'touch' || event.target.closest('a, button')) return;
+      const rect = hero.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      for (let i = 0; i < 12; i++)
+        emit(x + (Math.random() - 0.5) * 16, y + (Math.random() - 0.5) * 16);
+      if (particles.length > 48) particles.splice(0, particles.length - 48);
+      if (!frame) frame = requestAnimationFrame(draw);
+    },
+    { passive: true }
+  );
   hero.addEventListener('pointercancel', clear);
   document.addEventListener('visibilitychange', clear);
   reduced.addEventListener('change', clear);
