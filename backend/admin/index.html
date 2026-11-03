@@ -240,8 +240,24 @@
               </section>
               <section>
                 <h2>Eventos cadastrados</h2>
-                <p id="list-status"></p>
+                <label for="admin-event-search">Pesquisar eventos</label>
+                <input
+                  id="admin-event-search"
+                  type="search"
+                  placeholder="Nome, local, categoria ou plataforma"
+                />
+                <p id="list-status" role="status" aria-live="polite" tabindex="-1"></p>
                 <div id="event-list"></div>
+                <nav
+                  id="admin-event-pagination"
+                  class="event-pagination"
+                  aria-label="Páginas dos eventos"
+                  hidden
+                >
+                  <button type="button" id="admin-event-prev">Anterior</button>
+                  <span id="admin-event-page" aria-live="polite"></span>
+                  <button type="button" id="admin-event-next">Próxima</button>
+                </nav>
               </section>
             </div>
           </div>

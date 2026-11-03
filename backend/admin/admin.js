@@ -160,15 +160,56 @@ function chooseCover(image) {
 async function load() {
   await loadCategories();
   events = (await api('/api/admin/events')).events;
-  $('#list-status').textContent = events.length
-    ? `${events.length} evento(s)`
-    : 'Nenhum evento ainda. Cadastre o primeiro ao lado.';
-  $('#event-list').innerHTML = events
+  renderAdminEvents();
+}
+let adminEventPage = 1;
+const adminPageSize = 6;
+function renderAdminEvents() {
+  const normalizeSearch = (value) =>
+    String(value)
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLocaleLowerCase('pt-BR');
+  const query = normalizeSearch($('#admin-event-search').value.trim());
+  const filtered = events.filter((event) =>
+    normalizeSearch(
+      `${event.name} ${event.place} ${event.type} ${event.photo_type || ''} ${event.platform}`
+    ).includes(query)
+  );
+  const pages = Math.max(1, Math.ceil(filtered.length / adminPageSize));
+  adminEventPage = Math.min(adminEventPage, pages);
+  const start = (adminEventPage - 1) * adminPageSize;
+  $('#list-status').textContent = filtered.length
+    ? `Mostrando ${start + 1}–${Math.min(start + adminPageSize, filtered.length)} de ${filtered.length} evento(s)`
+    : events.length
+      ? 'Nenhum evento encontrado. Tente outra pesquisa.'
+      : 'Nenhum evento ainda. Cadastre o primeiro ao lado.';
+  $('#admin-event-pagination').hidden = pages <= 1;
+  $('#admin-event-prev').disabled = adminEventPage === 1;
+  $('#admin-event-next').disabled = adminEventPage === pages;
+  $('#admin-event-page').textContent = `Página ${adminEventPage} de ${pages}`;
+  $('#event-list').innerHTML = filtered
+    .slice(start, start + adminPageSize)
     .map(
       (e) =>
         `<article><span class="badge">${e.status === 'published' ? 'PUBLICADO' : 'RASCUNHO'}</span><h3>${esc(e.name)}</h3><p>${esc(e.date.split('-').reverse().join('/'))} · ${esc(e.place)}</p><p>${esc(e.type)}${e.photo_type ? ` · ${esc(e.photo_type)}` : ''} · ${esc(e.platform)}</p><div class="actions"><button data-edit="${e.id}">Editar</button><button data-toggle="${e.id}">${e.status === 'published' ? 'Despublicar' : 'Publicar'}</button><button data-delete="${e.id}" class="danger">Excluir</button></div></article>`
     )
     .join('');
+}
+$('#admin-event-search').addEventListener('input', () => {
+  adminEventPage = 1;
+  renderAdminEvents();
+});
+for (const [id, step] of [
+  ['admin-event-prev', -1],
+  ['admin-event-next', 1],
+]) {
+  $('#' + id).onclick = () => {
+    adminEventPage += step;
+    renderAdminEvents();
+    $('#admin-event-search').scrollIntoView?.({ block: 'start', behavior: 'smooth' });
+    $('#list-status').focus({ preventScroll: true });
+  };
 }
 $('#login').onsubmit = async (event) => {
   event.preventDefault();

@@ -469,6 +469,28 @@ dialog::backdrop {
   }
 }
 
+.event-pagination:not([hidden]) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+.event-pagination button {
+  min-height: 44px;
+  flex: 1;
+}
+.event-pagination button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+#admin-event-search {
+  width: 100%;
+  min-width: 0;
+  font-size: 16px;
+  scroll-margin-top: 24px;
+}
 #preview-dialog {
   width: min(1200px, 96vw);
   max-width: 1200px;

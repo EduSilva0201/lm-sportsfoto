@@ -246,10 +246,18 @@
           <button id="reset-filters" class="button outline-button">Limpar filtros ↻</button>
         </div>
         <div class="catalog-bottom">
-          <span id="shown-count"></span
-          ><button class="button outline-button" id="load-more">
-            Carregar mais eventos <span>↓</span>
-          </button>
+          <span id="shown-count" role="status" aria-live="polite" tabindex="-1"></span>
+          <div
+            id="event-pagination"
+            class="event-pagination"
+            role="navigation"
+            aria-label="Páginas dos álbuns"
+            hidden
+          >
+            <button class="button outline-button" id="event-prev" type="button">Anterior</button>
+            <span id="event-page" aria-live="polite"></span>
+            <button class="button outline-button" id="event-next" type="button">Próxima</button>
+          </div>
         </div>
       </section>
       <section class="shop section" id="loja">

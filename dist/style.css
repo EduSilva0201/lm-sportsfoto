@@ -2485,3 +2485,35 @@ nav {
     transition: none;
   }
 }
+
+.event-pagination:not([hidden]) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.event-pagination .button {
+  min-height: 44px;
+  padding: 12px 16px;
+}
+.event-pagination .button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+#search {
+  scroll-margin-top: 110px;
+}
+@media (max-width: 650px) {
+  .event-pagination {
+    width: 100%;
+  }
+  .event-pagination .button {
+    width: auto;
+    flex: 1;
+  }
+  .event-pagination > span {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+}

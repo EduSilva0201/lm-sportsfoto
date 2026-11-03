@@ -17,6 +17,7 @@
     "cloudflare:dev": "npm run cloudflare:build && wrangler dev --var PUBLIC_ORIGIN:http://localhost:8787",
     "cloudflare:migrate:local": "wrangler d1 migrations apply DB --local",
     "test:mobile": "node tests/mobile.mjs",
+    "test:pagination": "node tests/pagination.mjs",
     "cloudflare:export": "node cloudflare/export-local.mjs",
     "backup:local": "node backend/backup.mjs"
   },

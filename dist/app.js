@@ -55,7 +55,8 @@ let events = [
 const $ = (s) => document.querySelector(s);
 let catalogConnected = false;
 let modality = 'Todos',
-  visibleLimit = 6;
+  eventPage = 1;
+const eventPageSize = 6;
 const normalize = (s) =>
   s
     .normalize('NFD')
@@ -94,7 +95,10 @@ function renderEvents() {
   if ($('#event-sort').value === 'date')
     list.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
   if ($('#event-sort').value === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
-  const shown = list.slice(0, visibleLimit);
+  const pages = Math.max(1, Math.ceil(list.length / eventPageSize));
+  eventPage = Math.min(eventPage, pages);
+  const start = (eventPage - 1) * eventPageSize;
+  const shown = list.slice(start, start + eventPageSize);
   $('#event-grid').innerHTML = shown
     .map((e) => {
       const url = albumURL(e.url),
@@ -108,13 +112,16 @@ function renderEvents() {
   $('#event-count').textContent =
     `${list.length} ${list.length === 1 ? 'álbum encontrado' : 'álbuns encontrados'}`;
   $('#shown-count').textContent = list.length
-    ? `Mostrando ${shown.length} de ${list.length} álbuns`
+    ? `Mostrando ${start + 1}–${start + shown.length} de ${list.length} álbuns`
     : '';
-  $('#load-more').hidden = shown.length >= list.length;
+  $('#event-pagination').hidden = pages <= 1;
+  $('#event-prev').disabled = eventPage === 1;
+  $('#event-next').disabled = eventPage === pages;
+  $('#event-page').textContent = `Página ${eventPage} de ${pages}`;
   $('#empty').hidden = list.length > 0;
 }
 function resetListing() {
-  visibleLimit = 6;
+  eventPage = 1;
   renderEvents();
 }
 $('#search').addEventListener('input', resetListing);
@@ -133,10 +140,17 @@ document.querySelector('.filters').onclick = (event) => {
   });
   resetListing();
 };
-$('#load-more').onclick = () => {
-  visibleLimit += 6;
-  renderEvents();
-};
+for (const [id, step] of [
+  ['event-prev', -1],
+  ['event-next', 1],
+]) {
+  $('#' + id).onclick = () => {
+    eventPage += step;
+    renderEvents();
+    $('#search').scrollIntoView({ block: 'start', behavior: 'smooth' });
+    $('#shown-count').focus({ preventScroll: true });
+  };
+}
 $('#reset-filters').onclick = () => {
   modality = 'Todos';
   $('#search').value = '';
