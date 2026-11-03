@@ -1711,13 +1711,36 @@ nav {
     margin: 0;
   }
   .album-card .event-photo {
-    height: 370px;
+    height: clamp(160px, 48vw, 220px);
   }
   .album-body {
-    padding: 20px;
+    padding: 14px;
+  }
+  .album-body h3 {
+    font-size: 16px;
+    margin: 0 0 6px;
+  }
+  .album-body .event-meta {
+    margin-bottom: 6px;
+  }
+  .album-body .location {
+    margin-bottom: 12px;
   }
   .destination {
     flex-direction: row;
+    padding-top: 10px;
+  }
+  .album-card .event-detail-link {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 0;
+  }
+  .album-card .album-link {
+    min-height: 44px;
+    margin-top: 6px;
+    padding: 8px 0 0;
   }
   .catalog-bottom {
     flex-direction: column;
