@@ -64,3 +64,16 @@ Use a extensão recomendada **Prettier - Code formatter** (esbenp.prettier-vscod
 Foram adicionados galeria ampliável, páginas individuais de eventos, compartilhamento, filtros por local/período, perguntas frequentes e contato por WhatsApp. No painel, Contato / WhatsApp, Perguntas frequentes e Busca e links têm seus próprios menus. Visualizar antes de salvar abre uma prévia da seção sem gravar alterações. Em Depoimentos, escolha demonstração, reais ou ocultar a seção.
 
 Veja [como testar emulando um celular](docs/TESTE-CELULAR.md) e o [guia de publicação na Cloudflare](cloudflare/README.md). Execute npm.cmd run test:mobile para gerar capturas em artifacts/mobile. O modo Preparação mantém as páginas fora da indexação; altere para Publicado no painel somente quando o conteúdo estiver pronto. A escolha e otimização das imagens continuam pendentes.
+
+## Demonstração
+<img width="1902" height="908" alt="image" src="https://github.com/user-attachments/assets/55101f8f-50a2-403d-b9bc-dfd5ef700156" /> <img width="1917" height="912" alt="image" src="https://github.com/user-attachments/assets/d32d6cd5-4975-4efa-8cb3-4ac7662279e9" />
+
+<img width="1919" height="906" alt="image" src="https://github.com/user-attachments/assets/f36c2e41-5728-4e1c-bc41-9075772285f3" /> <img width="1916" height="902" alt="image" src="https://github.com/user-attachments/assets/275db834-cd61-481a-b99d-dc74163cfe8a" />
+
+<img width="1919" height="906" alt="image" src="https://github.com/user-attachments/assets/cd3c5487-25d6-4384-ac69-734fb6d8730b" /> <img width="1919" height="901" alt="image" src="https://github.com/user-attachments/assets/4b67481a-a4df-4bad-9e52-312a424bbb34" />
+
+<img width="1906" height="897" alt="image" src="https://github.com/user-attachments/assets/2540df39-103d-4a61-baac-dba6bc16b84c" /> <img width="1919" height="903" alt="image" src="https://github.com/user-attachments/assets/13c62428-39d9-4385-bbfd-7226b37c99fd" />
+
+
+
+
